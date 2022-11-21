@@ -1,7 +1,7 @@
 package Safari;
 
 
-public class Main {
+public class tempMain {
 
 
     private static String board = """

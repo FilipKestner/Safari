@@ -1,4 +1,4 @@
-package Safari;
+//package Safari;
 
 public class Board {
 

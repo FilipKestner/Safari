@@ -1,3 +1,12 @@
+///* **Write-Up** Obstacle
+// The Obstacle object acts as a linked list. It has a header (some char) which then carries
+// the rest of the nodes (body) with it.
+//
+// The four int[] arrays represent the changes the current coordinates (currentCoords) of an Obstacle
+// can go through (going up would be an addition to the Y value, and no change to the X value).
+//
+//*/
+//
 //import java.util.ArrayList;
 //public class Obstacle {
 //

@@ -7,6 +7,9 @@ public class Obstacle {
    final int[] right= new int[] {0,  1};
 
    Node header;
+   Node tail; 
+   //char direction; 
+   // We dont NEED to implement 
 
        static class Node {
         // Node class for tracking each part of our animals. 
@@ -30,7 +33,13 @@ public class Obstacle {
      
             public void setCurrentCoords(ArrayList<Integer> newCoords) {
                 //System.out.println(this.getCurrentCoords());
-                this.currentCoords = newCoords;
+                
+                this.currentCoords = new ArrayList<Integer>();
+                this.currentCoords.add(newCoords.get(0));
+                this.currentCoords.add(newCoords.get(1));
+
+                
+                
                 //System.out.println(this.getCurrentCoords());
             }
 
@@ -56,11 +65,11 @@ public class Obstacle {
 
        public Obstacle insert(Obstacle linkedList, ArrayList<Integer> currentCoords, char animalChar){
 
-        Node new_node = new Node(currentCoords, null, animalChar); // Node to be added
-        //Node prev_node;                       // Node right before new_node
+        Node new_node = new Node(currentCoords, null, animalChar); 
 
         if(linkedList.header == null){
             linkedList.header = new_node;
+            linkedList.tail = new_node; 
         }
         else{
             Node cursor_node = linkedList.header; 
@@ -69,21 +78,25 @@ public class Obstacle {
                 cursor_node = cursor_node.next;
             }
             cursor_node.next = new_node; 
+            linkedList.tail = new_node;
         }
 
         return linkedList; 
        }
 
-       public void printList(Obstacle linkedList){
+       public void printList(){
         // A function to be able to error check our Obstacle linked
         // lists in the future if a problem arises. Formatted to display
         // almost all relevent values. 
-            Node cur_node = linkedList.header; 
 
-            System.out.println(" Linked List: ");
+        // **** THIS PRINTS OUT IN NORMAL INDEX STARTING AT 1 NOT 0!!!!!!! *******
+        // **** EVERYTHING IS STORED STARTING AT INDEX 0! BE WARE!!!!!!!!! *******
+            Node cur_node = this.header; 
+
+            System.out.printf(" Linked List: %c\n",cur_node.animalChar);
 
             while(cur_node != null){
-                System.out.printf("\t%c | (%d,%d)\n",cur_node.animalChar, cur_node.currentCoords.get(0), cur_node.currentCoords.get(1));
+                System.out.printf("\t%c | (%d,%d)\n",cur_node.animalChar, cur_node.currentCoords.get(0)+1, cur_node.currentCoords.get(1)+1);
                 cur_node = cur_node.next; 
             }
 
@@ -121,7 +134,7 @@ public class Obstacle {
         ArrayList<Integer> curCoords = new ArrayList<Integer>();
 
 
-        obst.printList(obst); 
+        
 
         while(curNode != null){
             curCoords = curNode.getCurrentCoords();
@@ -139,7 +152,7 @@ public class Obstacle {
             curNode = curNode.next; 
         }
 
-        obst.printList(obst); 
+        
 
 
        }

@@ -103,8 +103,8 @@ public class Board {
             
 
             while(curNode != null){
-                boardState.get(curNode.currentCoords.get(0))
-                    .set( curNode.currentCoords.get(1), curNode.getAnimalChar());
+                boardState.get(curNode.currentCoords.get(1))
+                    .set( curNode.currentCoords.get(0), curNode.getAnimalChar());
 
             
                 curNode = curNode.next; 
@@ -187,16 +187,94 @@ public class Board {
 
     }
 
+    public void printObstacles(){
+        // Prints all obstacles currently in the board. Function useful for error
+        // checking and provides no gameplay functionality. 
 
-    public void moveObst(char obstChar, String dir){
+        Set<Character> obstKeys = obstacleMap.keySet(); 
+        for(char x : obstKeys){
+            obstacleMap.get(x).printList();
+        }
+
+
+
+    }
+
+    public void moveObst(char obstChar, String dir, int spaces){
         Obstacle obstToMove = obstacleMap.get(obstChar); 
-        obstToMove.move(obstToMove, dir);
+
+        for(int i = 0; i < spaces; i++){
+            obstToMove.move(obstToMove, dir);
+        }
     }
 
     public boolean checkMove(char obstChar, String dir, int spaces){
+        // Get the obstacle object we want to move first
+        Obstacle obst = obstacleMap.get(obstChar);
+
+        // How do we tell if an obstacle is horizontal or vertical?
+        // Well what comes to mind first is to check the difference
+        // between header and header.next coordinates. Depending
+        // on what the differnece is we know direction? 
+        //
+        // We could also just keep an 'H' or 'V' char telling us 
+        // either VERTICAL or HORIZONTAL? 
+        //
+        // One other thing, we need to either:
+        //      1. ASSUME THAT HEADER OF OBSTACLE IS ALWAYS ON EITHER
+        //         THE LEFT MOST POINT OR TOP MOST POINT
+        //
+        //      2. Check based on head/tail depending on direction
+        //
+        //      BOTH???
+
+        // New method, we check dir nad if same as current char we know
+        // to go to the tail
 
 
         
+
+
+        // 1. Check orientation of Obstacle:
+        char obstOrientation; 
+        ArrayList<Integer> differenceCoords = new ArrayList<Integer>();
+
+        differenceCoords.add( obst.header.currentCoords.get(0) - obst.header.next.currentCoords.get(0));
+        differenceCoords.add( obst.header.currentCoords.get(1) - obst.header.next.currentCoords.get(1));
+
+        if(differenceCoords.get(0) == 0){obstOrientation = 'V';}
+        else{obstOrientation = 'H';}
+
+        //System.out.println(differenceCoords + " | " + obstChar + " | " + obstOrientation);
+
+
+
+        // 2. Confirm the direction is appropriate
+        //      -> Include ERROR CHECKING HERE LATER!
+        if(obstOrientation == 'H'){
+
+            if(dir.equals("up") || dir.equals("down")){
+                // INVALID COMMAND, TRYING TO MOVE HORIZONTAL PIECE UP OR DOWN
+                return false;
+            }
+        }
+        else if(obstOrientation == 'V'){
+            if(dir.equals("left") || dir.equals("right")){
+                // INVALID COMMAND, TRYING TO MOVE VERTICAL PIECE LEFT OR RIGHT
+                return false;
+            }
+        }
+
+
+        // 3. Check to see if we should count from header or tail
+        
+            // if HORIZONTAL, right->tail, left->head
+            // if VERTICAL,   up->head, down->tail
+        
+
+
+
+
         return false;
     }
 

@@ -1,5 +1,4 @@
-package Safari;
-
+import java.util.ArrayList;
 
 public class tempMain {
 
@@ -30,40 +29,45 @@ public class tempMain {
 
     public static void main (String args[]){
 
-    
-
-    int[][] MDarray = new int[10][10];
-
-    
-    System.out.print(" ---------------------------------------\n");
-    for(int i = 0; i < MDarray.length; i++){
-
-        System.out.print("| ");
-        for(int j = 0; j < MDarray[0].length; j++){
-            System.out.print(j + " | ");
-        }
-
-        System.out.println();
+        Board newBoard = new Board(); 
+        newBoard.printBoard(); 
 
 
-    }
-    System.out.print(" ---------------------------------------\n");
+        ArrayList<Obstacle> toAdd = new ArrayList<Obstacle>();
 
+        
 
+        // 1 Rhino 
+        Obstacle rhino = new Obstacle(); 
+        ArrayList<Integer> coords1 = new ArrayList<Integer>(); 
+        coords1.add(0); 
+        coords1.add(0); 
+        char aChar = 'R'; 
+        rhino.insert(rhino, coords1, aChar);
 
-    // Basic Game Runthrough 
+        ArrayList<Integer> coords2 = new ArrayList<Integer>(); 
+        coords2.add(0); 
+        coords2.add(1);
 
+        rhino.insert(rhino,coords2, aChar);
 
-    // Scanner kb = new Scanner(System.in);
+        toAdd.add(rhino); 
+        // Rhino HEAD      @ (1,1)
+        // Rhino BODY/TAIL @ (1,2)
+        // ----------------------------------------------------
+        //Obstacle linkedList, ArrayList<Integer> currentCoords, char animalChar
 
-    // System.out.println("Welcome to the SAFARI!");
-    // System.out.println("What is your name?");
-    // String playerName = kb.nextLine(); 
+        newBoard.populate(toAdd);
+        newBoard.update(); 
+        newBoard.printBoard(); 
 
+        // String to Obstacle list? TO be able to easily test & convert strings
+        // from a .txt file for example into obstacles. 
+        //      How do we format? 
+        //          char x_coord y_coord length direction(up, down, left, right)
+        //          R, 0,0,2,right
+        //  -> DO THIS LATER, FIRST WE SETTLE MOVING! 
 
-
-
-    // System.out.println(board);
 
     }
 }

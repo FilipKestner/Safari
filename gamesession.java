@@ -5,10 +5,6 @@ public class gamesession {
 //    Board board = new Board();
 //    Player player = new Player();
 
-
-
-
-
     public static void printIntro() {    //print introduction
         System.out.println(" ______        _       ________    _       _______     _____  \n" +
                 ".' ____ \\      / \\     |_   __  |  / \\     |_   __ \\   |_   _| \n" +
@@ -159,4 +155,11 @@ public class gamesession {
     }//print leaderboard
 
     //print board
+
+    public static void play(){
+        // Initiates a game session and actually plays it. 
+
+
+
+    }
 }

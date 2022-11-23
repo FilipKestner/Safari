@@ -1,5 +1,5 @@
-//
-//
-//public class Car extends Obstacle {
-//
-//}
+
+
+public class Car extends Obstacle {
+
+}

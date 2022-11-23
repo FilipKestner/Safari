@@ -1,65 +1,100 @@
-//import java.util.ArrayList;
-//public class Obstacle {
-//
-//    final int[] up= new int[]    {+0, +1};
-//    final int[] down= new int[]  {+0, -1};
-//    final int[] left= new int[]  {-1, -0};
-//    final int[] right= new int[] {+1, -0};
-//
-//    public class Obstacle {
-//
-//        Node header;
-//        static class Node {
-//            ArrayList<Integer> currentCoords = new ArrayList<Integer>();
-//            Obstacle next;
-//            char animalChar;
-//
-//            public Node(ArrayList<Integer> currentCoords, ArrayList<Integer> nextCoords, char animalChar) {
-//                setCurrentCoords(currentCoords);
-//                setNextCoords(nextCoords);
-//                setAnimalChar(animalChar);
-//            }
-//        }
-//
-//        public static Obstacle insert(Obstacle obst, char animalChar){
-//            Node new_node = new Node(animalChar);
-//
-//            if (obst.header == null){      //if obstacle is empty
-//                obst.header == new_node;   //make new obstacle-header
-//            } else-if {                    //if not empty
-//                Node last = obst.header;   //reference head of list
-//                while (last.next != null){ //iterate through linked list
-//                    last = last.next;      //check that var last is last node in Obstacle
-//                }
-//                last.next = new_node;
-//            }
-//            return obst;
-//        }
-//    }
-//
-//
-//
-//    public ArrayList<Integer> getCurrentCoords() {
-//        return currentCoords;
-//    }
-//
-//    public void setCurrentCoords(ArrayList<Integer> currentCoords) {
-//        this.currentCoords = currentCoords;
-//    }
-//
-//    public ArrayList<Integer> getNextCoords() {
-//        return nextCoords;
-//    }
-//
-//    public void setNextCoords(ArrayList<Integer> nextCoords) {
-//        this.nextCoords = nextCoords;
-//    }
-//
-//    public char getAnimalChar() {
-//        return animalChar;
-//    }
-//
-//    public void setAnimalChar(char animalChar) {
-//        this.animalChar = animalChar;
-//    }
-//}
+import java.util.ArrayList;
+public class Obstacle {
+
+   final int[] up= new int[]    {+0, +1};
+   final int[] down= new int[]  {+0, -1};
+   final int[] left= new int[]  {-1, -0};
+   final int[] right= new int[] {+1, -0};
+
+   Node header;
+
+       static class Node {
+        // Node class for tracking each part of our animals. 
+           ArrayList<Integer> currentCoords = new ArrayList<Integer>();
+           Node next;
+           char animalChar;
+
+           public Node(ArrayList<Integer> currentCoords, Node nextLink, char animalChar) {
+               setCurrentCoords(currentCoords);
+               setNext(nextLink);
+               setAnimalChar(animalChar);
+            }
+
+            public Node(char animalChar){
+                setAnimalChar(animalChar);
+            }
+
+           public ArrayList<Integer> getCurrentCoords() {
+            return currentCoords;
+            }
+     
+            public void setCurrentCoords(ArrayList<Integer> currentCoords) {
+                this.currentCoords = currentCoords;
+            }
+        
+            public Node getNext() {
+                return next;
+            }
+        
+            public void setNext(Node next) {
+                this.next = next;
+            }
+        
+            public char getAnimalChar() {
+                return animalChar;
+            }
+        
+            public void setAnimalChar(char animalChar) {
+                this.animalChar = animalChar;
+            }
+
+       }
+
+       public Obstacle insert(Obstacle linkedList, ArrayList<Integer> currentCoords, char animalChar){
+
+        Node new_node = new Node(currentCoords, null, animalChar); // Node to be added
+        //Node prev_node;                       // Node right before new_node
+
+        if(linkedList.header == null){
+            linkedList.header = new_node;
+        }
+        else{
+            Node cursor_node = linkedList.header; 
+
+            while (cursor_node.next != null){
+                cursor_node = cursor_node.next;
+            }
+            cursor_node.next = new_node; 
+        }
+
+        return linkedList; 
+       }
+
+       public static void printList(Obstacle linkedList){
+        // A function to be able to error check our Obstacle linked
+        // lists in the future if a problem arises. Formatted to display
+        // almost all relevent values. 
+            Node cur_node = linkedList.header; 
+
+            System.out.println(" Linked List: ");
+
+            while(cur_node != null){
+                System.out.printf("\t%c | (%d,%d)\n",cur_node.animalChar, cur_node.currentCoords.get(0), cur_node.currentCoords.get(1));
+                cur_node = cur_node.next; 
+            }
+
+       }
+
+       public static void move(Obstacle linkedList, char dir){
+        // This should be the method that moves the coordinates
+        // of one of our obstacles. will implement at end. 
+
+       }
+
+
+   }
+
+
+
+
+

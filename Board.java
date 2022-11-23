@@ -15,7 +15,7 @@ public class Board {
     final int GRID_WIDTH = 6;
     final int GRID_HEIGHT = 6; 
 
-    private char[][] boardValues; //= new char[GRID_WIDTH][GRID_HEIGHT]; 
+    //private char[][] boardValues; //= new char[GRID_WIDTH][GRID_HEIGHT]; 
     // Create a 2D array which will be later used to print, 
     // the entire board as well as create board states on game start
 
@@ -187,6 +187,18 @@ public class Board {
 
     }
 
+
+    public void moveObst(char obstChar, String dir){
+        Obstacle obstToMove = obstacleMap.get(obstChar); 
+        obstToMove.move(obstToMove, dir);
+    }
+
+    public boolean checkMove(char obstChar, String dir, int spaces){
+
+
+        
+        return false;
+    }
 
     
 }

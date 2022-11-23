@@ -68,6 +68,12 @@ public class tempMain {
         //          R, 0,0,2,right
         //  -> DO THIS LATER, FIRST WE SETTLE MOVING! 
 
+        newBoard.moveObst('R',"down",1);
+        newBoard.update(); 
+        newBoard.printBoard();
+
+        
+
 
     }
 }

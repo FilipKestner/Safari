@@ -17,6 +17,7 @@ import java.util.Set;
 //
 
 
+
 // Board.java Write-Up:
 //      The Board class is mainly responsible for tracking the current state of the
 //  game board. It tracks the LOCATION of OBSTACLES (and as a result, PLAYER) as all
@@ -57,6 +58,7 @@ public class Board {
     HashMap<Character, Obstacle> obstacleMap = new HashMap<Character, Obstacle>();        // Dictionary of obstacles 
 
     
+    // Default Constructor with EMPTY OBSTACLE LIST
     public Board(){
         for(int i = 0; i < GRID_WIDTH; i++){
             this.boardState.add(new ArrayList<Character>());
@@ -67,6 +69,7 @@ public class Board {
         }
     }
 
+    // Constructor with OBSTACLE LIST
     public Board(ArrayList<Obstacle> obstacles){
         for(int i = 0; i < GRID_WIDTH; i++){
             this.boardState.add(new ArrayList<Character>());
@@ -79,6 +82,7 @@ public class Board {
     }
 
 
+    
     // POPULATE 
     //      This function is used to take an ArrayList<Obstacle> and enter it 
     //      into the board object. This is what is used to essentially populate

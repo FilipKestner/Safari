@@ -1,9 +1,14 @@
-public class gamesession {
-   
-   
+// **Writeup GameSession**
+// all printXXX() functions print out a screen, matching its name.
+//
+
+public class GameSession {
+
+
 //    private int moveCounter = 0;
 //    Board board = new Board();
 //    Player player = new Player();
+
 
     public static void printIntro() {    //print introduction
         System.out.println(" ______        _       ________    _       _______     _____  \n" +
@@ -51,7 +56,8 @@ public class gamesession {
                 "Press ‘?’ to view the “How To Play” page:\n" +
                 "Type ‘LB’ to view the leaderboard:\n");
     }
-    public static void printRules(){
+
+    public static void printRules() {
         System.out.println("_______  _____  _____  _____     ________   ______   \n" +
                 "|_   __ \\|_   _||_   _||_   _|   |_   __  |.' ____ \\\n" +
                 "  | |__) | | |    | |    | |       | |_ \\_|| (___ \\_| \n" +
@@ -111,7 +117,8 @@ public class gamesession {
                 "Type ‘rules’ to view the rules page:\n" +
                 "Type ‘LB’ to view the leaderboard:\n");
     }
-    public static void printLB(){
+
+    public static void printLB() { //print leaderboard
         System.out.println(" _____     ________       _       ______   ________  _______          \n" +
                 " |_   _|   |_   __  |     / \\     |_   _ `.|_   __  ||_   __ \\         \n" +
                 "   | |       | |_ \\_|    / _ \\      | | `. \\ | |_ \\_|  | |__) |______  \n" +
@@ -152,14 +159,5 @@ public class gamesession {
                 "Type ‘exit’ to exit this page:\n" +
                 "Press ‘?’ to view the “How To Play” page:\n" +
                 "Type ‘rules’ to view the rules:\n");
-    }//print leaderboard
-
-    //print board
-
-    public static void play(){
-        // Initiates a game session and actually plays it. 
-
-
-
     }
 }

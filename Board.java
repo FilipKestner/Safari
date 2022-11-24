@@ -5,43 +5,60 @@ import java.util.HashMap;
 import java.util.Set;
 
 
+// Board.java Write-Up
+//      The Board.java class is responsible for tracking the state of the 
+//  game board. It tracks the location of Obstacles & the player as well 
+//  displays the board to the player. 
+//
+//      GRID_WIDTH  := Width of Game Board 
+//      GRID_HEIGHT := Height of Game Board
+//
+//      boardState := Tracks the board state as characters
+//
+
+
+// Board.java Write-Up:
+//      The Board class is mainly responsible for tracking the current state of the
+//  game board. It tracks the LOCATION of OBSTACLES (and as a result, PLAYER) as all
+//  PRINTS board to player. The board acts as the LINKING LAYER between the player,
+//  and all obstacles. It does this by also being responsible for checking if moves
+//  are valid as well as initiating the appropraite coordiante changes in the Obstacle
+//  class. 
+//
+//      Important Functions & Attributes, Their Purpose & Logic:
+//          ArrayList<ArrayList<Character> > boardState := responsible for tracking the board state via
+//                                                         a 2D-ArrayList of characters. Each Obstacle
+//                                                         node is represented as it's respective character.
+//
+//           HashMap<Character, Obstacle> obstacleMap := a DICTIONARY ('R' : Rhino Obstacle) which uses
+//                                                       animal characters (Ex. 'R') as keys to refer to
+//                                                       the Obstacle object responsible for said animal.
+//                                                       This is extremely useful because we can easily 
+//                                                       use a user input character 'Z' for example to instantly
+//                                                       retrieve the Zebra object. Helps with move checking
+//                                                       too. 
+//
+
+
 
 public class Board {
 
 
-    // final int BOARD_WIDTH  = 80; 
-    // final int BOARD_HEIGHT = 80;
-
+    // SIZE OF THE BOARD: 
     final int GRID_WIDTH = 6;
     final int GRID_HEIGHT = 6; 
+    // ------------------------
+    // ** NOT IMPLEMENTED CORRECTLY 
+    // IN THE PRINTING FUCNTION!
+    // REVIEW AND CORRECT AT A LATER DATE ** 
 
-    //private char[][] boardValues; //= new char[GRID_WIDTH][GRID_HEIGHT]; 
-    // Create a 2D array which will be later used to print, 
-    // the entire board as well as create board states on game start
+
+    ArrayList<ArrayList<Character> > boardState = new ArrayList< ArrayList<Character>>(); // Tracks actual boardstate for printing
+    HashMap<Character, Obstacle> obstacleMap = new HashMap<Character, Obstacle>();        // Dictionary of obstacles 
 
     
-    ArrayList< ArrayList<Character> > boardState = new ArrayList< ArrayList<Character>>(); // Tracks actual boardstate for printing
-
-    //ArrayList<Obstacle> obstacleList = new ArrayList<Obstacle>(); // Tracks all obstacles on the board
-    // Even though we turn obstacles into characters, we can actual use these characters
-    // for collision checking. This is because R and a Obstacle(R) are essentially the same thing. 
-    // Wow what a genius idea Group 8, simplifying error checking into characters rather than having 
-    // to iterate through linked lists. 
-
-    //HashMap<String, String> capitalCities = new HashMap<String, String>();
-
-    HashMap<Character, Obstacle> obstacleMap = new HashMap<Character, Obstacle>(); 
-    // We keep track of these obstacles in a Hashmap. This is done because then
-    // the user can just enter the character thats shown on the board and we can easily
-    // extract the appropraite obstacle from the hashmap. Saves us the headache of iterating
-    // throuhg the entire obstacleList we had before and finding the current Obstacle LL. 
-    // ** ALSO HELPS ME DO MOVE CHECKING! SO IT WAS NECESSARY! 
-    
-    
-
     public Board(){
         for(int i = 0; i < GRID_WIDTH; i++){
-            //ArrayList<Character> emptyList = new ArrayList<Character>
             this.boardState.add(new ArrayList<Character>());
             for(int j = 0; j < GRID_HEIGHT; j++){
                 this.boardState.get(i).add(' ');
@@ -52,43 +69,54 @@ public class Board {
 
     public Board(ArrayList<Obstacle> obstacles){
         for(int i = 0; i < GRID_WIDTH; i++){
-            //ArrayList<Character> emptyList = new ArrayList<Character>
             this.boardState.add(new ArrayList<Character>());
             for(int j = 0; j < GRID_HEIGHT; j++){
                 this.boardState.get(i).add(' ');
             }
-
         }
 
         this.populate(obstacles);
     }
 
-    public void populate(ArrayList<Obstacle> obstacles){
-        // This is supposed to populate the obstacleList
-        // so we know what obstacles we are working with. 
-        // Essentially turns an empty list of obstacles
-        // into one filled with Obstacles. 
-        // obstacleList.clear();
-        // for(int i = 0; i < obstacles.size(); i++){
-        //     obstacleList.add(obstacles.get(i));
-        // }
 
-        obstacleMap.clear();
+    // POPULATE 
+    //      This function is used to take an ArrayList<Obstacle> and enter it 
+    //      into the board object. This is what is used to essentially populate
+    //      the board with Obstacles. 
+    public void populate(ArrayList<Obstacle> obstacles){
+
+        // 1. We must first clear the list to ensure we 
+        // are working with an empty board.
+        obstacleMap.clear(); 
+
+        // 2. We loop through the obstacles ArrayList<Obstacle> that 
+        // is a parameter, and insert every Obstacle INTO THE BOARD
         for(int i = 0; i < obstacles.size(); i++){
             obstacleMap.put(obstacles.get(i).header.animalChar, obstacles.get(i));
         }
     }
+    // -------------------------------------------------------------------------------
 
+    // UPDATE
+    //      This function is the BREAD AND BUTTER OF THE ENTIRE BOARD CLASS! By 
+    //      using this function and in turn not having to dynamically update
+    //      boardState we make a number of tasks much simpler, easier as well
+    //      as efficient. This function clears the entire boardState and repopulates
+    //      it with the NEW COORDINATES OF THE OBSTACLES/PLAYER OBJECTS!
+    //      **DISCLAIMER************************************* -> UPDATE THE DAMN BOARD
+    //      ** THIS FUNCTION MUST BE RUN EVERY SINGLE LOOP **
+    //      ** AND ANY TIME ANY MOVE OR CHANGE IS MADE TO  **
+    //      ** THE OBSTACLE OR BOARD!                      **
+    //      *************************************************
     public void update(){
-        // Used to update the printing string. 
-        // ** MUST BE DONE AFTER EVERY MOVE NO MATTER WHAT
-        // OR OUR PRINTING AND ERROR CHECKING ARE GOING TO BE OFF
-        // AND THE ENTIRE GAME IS GOING TO BREAK! UPDATE THE
-        // DAMN BOARD!
-    
-        boardState.clear(); // -> First we clear the entire board
 
-        // Fill board again with EMPTY BOXES
+
+        // 1. CLEAR the entire board to ensure we are working
+        // with an empty board.
+        boardState.clear(); 
+
+        // 2. FILL the board with EMPTY BOXES to ensure that
+        // we do not cause an OUT OF BOUNDS ERROR
         for(int i = 0; i < GRID_WIDTH; i++){
             //ArrayList<Character> emptyList = new ArrayList<Character>
             this.boardState.add(new ArrayList<Character>());
@@ -97,51 +125,32 @@ public class Board {
             }
         }
 
-        Set<Character> obstKeys = obstacleMap.keySet(); 
-        for(char x : obstKeys){
-            Obstacle.Node curNode = obstacleMap.get(x).header; 
-            
+        
 
-            while(curNode != null){
-                boardState.get(curNode.currentCoords.get(1))
-                    .set( curNode.currentCoords.get(0), curNode.getAnimalChar());
+        // 3. Iterate through obstacleMap (:= The dictionary of all the obstacles
+        // on the board), and CONVERT EVERY OBSTACLE INTO APPROPRIATE CHARACTERS 
+        // ON THE BOARD (i.e. in ArrayList<ArrayList<Character> > boardState)
+        Set<Character> obstKeys = obstacleMap.keySet(); // Get all keys in obstacleMap
+
+        for(char x : obstKeys){ // For every ket in the dictionary
+            Obstacle.Node curNode = obstacleMap.get(x).header; // Get the appropriate obstacle
+        
+            while(curNode != null){ // Iterate through the Obstacle LL
+                boardState.get(curNode.currentCoords.get(1))                        // Set Node(x,y) on boardState as
+                    .set( curNode.currentCoords.get(0), curNode.getAnimalChar());   // the appropriate animal char.
 
             
-                curNode = curNode.next; 
+                curNode = curNode.next; // Move on to next node in the Obstacle object.
             }
         }
-
     }
+    // ---------------------------------------------------------------------------------------------------------------------
 
-    // Board Reference: 
-    //     ╔═══╦═══════╦═══════╦═══════╦═══════╦═══════╦═══════╗
-    //     ║ 0 ║   1   ║   2   ║   3   ║   4   ║   5   ║   6   ║
-    //     ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣
-    //     ║   ║       ║       ║       ║       ║       ║       ║
-    //     ║ 1 ║       ║       ║       ║       ║       ║       ║
-    //     ║   ║       ║       ║       ║       ║       ║       ║
-    //     ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣
-    //     ║   ║       ║       ║       ║       ║       ║       ║
-    //     ║ 2 ║       ║       ║       ║       ║       ║       ║   
-    //     ║   ║       ║       ║       ║       ║       ║       ║   
-    //     ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣
-    //     ║   ║       ║       ║       ║       ║       ║       ║
-    //     ║ 3 ║       ║       ║       ║       ║       ║       ║
-    //     ║   ║       ║       ║       ║       ║       ║       ║   
-    //     ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣
-    //     ║   ║       ║       ║       ║       ║       ║       ║
-    //     ║ 4 ║       ║       ║       ║       ║       ║       ║
-    //     ║   ║       ║       ║       ║       ║       ║       ║   
-    //     ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╣═══════╣
-    //     ║   ║       ║       ║       ║       ║       ║       ║
-    //     ║ 5 ║       ║       ║       ║       ║       ║       ║ 
-    //     ║   ║       ║       ║       ║       ║       ║       ║   
-    //     ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╣═══════╣
-    //     ║   ║       ║       ║       ║       ║       ║       ║
-    //     ║ 6 ║       ║       ║       ║       ║       ║       ║
-    //     ║   ║       ║       ║       ║       ║       ║       ║       
-    //     ╚═══╩═══════╩═══════╩═══════╩═══════╩═══════╝═══════╝
+    
 
+    // PRINT BOARD
+    //       This function simply iterates through the entire 2D-ArrayList<ArrayList<Character>> and prints
+    //       the characters with the appropriate formatting to look like a board.
     public void printBoard(){
         // STILL ON THE DOCKET:
         //      1. Convert the print function to only print GRID_WIDTH number of boxes.
@@ -183,10 +192,43 @@ public class Board {
 
         System.out.println("╚═══╩═══════╩═══════╩═══════╩═══════╩═══════╩═══════╝");
 
-
+    // Board Reference: 
+    //     ╔═══╦═══════╦═══════╦═══════╦═══════╦═══════╦═══════╗
+    //     ║ 0 ║   1   ║   2   ║   3   ║   4   ║   5   ║   6   ║
+    //     ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣
+    //     ║   ║       ║       ║       ║       ║       ║       ║
+    //     ║ 1 ║       ║       ║       ║       ║       ║       ║
+    //     ║   ║       ║       ║       ║       ║       ║       ║
+    //     ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣
+    //     ║   ║       ║       ║       ║       ║       ║       ║
+    //     ║ 2 ║       ║       ║       ║       ║       ║       ║   
+    //     ║   ║       ║       ║       ║       ║       ║       ║   
+    //     ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣
+    //     ║   ║       ║       ║       ║       ║       ║       ║
+    //     ║ 3 ║       ║       ║       ║       ║       ║       ║
+    //     ║   ║       ║       ║       ║       ║       ║       ║   
+    //     ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣
+    //     ║   ║       ║       ║       ║       ║       ║       ║
+    //     ║ 4 ║       ║       ║       ║       ║       ║       ║
+    //     ║   ║       ║       ║       ║       ║       ║       ║   
+    //     ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╣═══════╣
+    //     ║   ║       ║       ║       ║       ║       ║       ║
+    //     ║ 5 ║       ║       ║       ║       ║       ║       ║ 
+    //     ║   ║       ║       ║       ║       ║       ║       ║   
+    //     ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╣═══════╣
+    //     ║   ║       ║       ║       ║       ║       ║       ║
+    //     ║ 6 ║       ║       ║       ║       ║       ║       ║
+    //     ║   ║       ║       ║       ║       ║       ║       ║       
+    //     ╚═══╩═══════╩═══════╩═══════╩═══════╩═══════╝═══════╝    
 
     }
+    // ---------------------------------------------------------------------------------------------------------------------
 
+    
+    // PRINT OBSTACLES
+    //      This function is INTENDED ONLY FOR TESTING PURPOSES! SERVES NO USE FOR GAMEPLAY!
+    //      Prints all the obstacles that are currently SUPPOSED TO BE ON THE BOARD
+    //      in a nicely foramtted list. 
     public void printObstacles(){
         // Prints all obstacles currently in the board. Function useful for error
         // checking and provides no gameplay functionality. 
@@ -195,16 +237,18 @@ public class Board {
         for(char x : obstKeys){
             obstacleMap.get(x).printList();
         }
-
-
-
     }
 
+
+    // MOVE OBSTACLE
+    //      This function initiates the move function for the given obstacle.
+    //      IT DOES NOT CHECK IF THE MOVE IS ALLOWED OR APPROPRIATE! THAT IS 
+    //      HANDLED BY 'checkMove' function.
     public void moveObst(char obstChar, String dir, int spaces){
-        Obstacle obstToMove = obstacleMap.get(obstChar); 
+        Obstacle obstToMove = obstacleMap.get(obstChar);  // Get the Obstacle object
 
         for(int i = 0; i < spaces; i++){
-            obstToMove.move(obstToMove, dir);
+            obstToMove.move(obstToMove, dir); //Call the move function for as many times as requested by spaces
         }
     }
 
@@ -304,12 +348,6 @@ public class Board {
 
 
         }
-
-
-
-        
-
-
 
 
         return false;

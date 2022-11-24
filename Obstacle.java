@@ -99,7 +99,6 @@ public class Obstacle {
                 System.out.printf("\t%c | (%d,%d)\n",cur_node.animalChar, cur_node.currentCoords.get(0)+1, cur_node.currentCoords.get(1)+1);
                 cur_node = cur_node.next; 
             }
-
        }
 
        public void move(Obstacle obst, String dir){

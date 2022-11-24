@@ -35,8 +35,6 @@ public class tempMain {
 
         ArrayList<Obstacle> toAdd = new ArrayList<Obstacle>();
 
-        
-
         // 1 Rhino 
         Obstacle rhino = new Obstacle(); 
         ArrayList<Integer> coords1 = new ArrayList<Integer>(); 

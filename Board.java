@@ -251,25 +251,62 @@ public class Board {
 
         // 2. Confirm the direction is appropriate
         //      -> Include ERROR CHECKING HERE LATER!
+
+        ArrayList<Integer> startingCoords = new ArrayList<Integer>();
+
+
         if(obstOrientation == 'H'){
 
             if(dir.equals("up") || dir.equals("down")){
                 // INVALID COMMAND, TRYING TO MOVE HORIZONTAL PIECE UP OR DOWN
                 return false;
             }
+
+
+
+        // 3. Check to see if we should count from header or tail
+        
+            // if HORIZONTAL, right->tail, left->head
+
+
+            // if VERTICAL,   up->head, down->tail
+
+            if(dir.equals("right")){ // Count from Tail
+                startingCoords = obst.tail.getCurrentCoords(); 
+            }
+            else{ // Count from Head
+                startingCoords = obst.header.getCurrentCoords(); 
+            }
+
+
+            for(int i = 0; i < spaces; i++){
+
+                
+            }
+
+
+
         }
         else if(obstOrientation == 'V'){
             if(dir.equals("left") || dir.equals("right")){
                 // INVALID COMMAND, TRYING TO MOVE VERTICAL PIECE LEFT OR RIGHT
                 return false;
             }
+
+
+            if(dir.equals("down")){ // Count from Tail
+                startingCoords = obst.tail.getCurrentCoords(); 
+            }
+            else{ // Count from Head
+                startingCoords = obst.header.getCurrentCoords(); 
+            }
+
+
+
         }
 
 
-        // 3. Check to see if we should count from header or tail
-        
-            // if HORIZONTAL, right->tail, left->head
-            // if VERTICAL,   up->head, down->tail
+
         
 
 

@@ -273,7 +273,7 @@ public class Board {
         differenceCoords.add( obst.header.currentCoords.get(0) - obst.header.next.currentCoords.get(0));
         differenceCoords.add( obst.header.currentCoords.get(1) - obst.header.next.currentCoords.get(1));
 
-        if(differenceCoords.get(0) == 0){obstOrientation = 'V';}
+        if(differenceCoords.get(0) == 1){obstOrientation = 'V';}
         else{obstOrientation = 'H';}
 
         //System.out.println(differenceCoords + " | " + obstChar + " | " + obstOrientation);
@@ -283,8 +283,11 @@ public class Board {
         // 2. Confirm the direction is appropriate
         //      -> Include ERROR CHECKING HERE LATER!
 
+
+
         ArrayList<Integer> startingCoords = new ArrayList<Integer>();
 
+        int[] movingCoords; 
 
         if(obstOrientation == 'H'){
 
@@ -293,29 +296,31 @@ public class Board {
                 return false;
             }
 
-
-
         // 3. Check to see if we should count from header or tail
+        // and get the appropriate incremental coordinates
         
             // if HORIZONTAL, right->tail, left->head
-
-
             // if VERTICAL,   up->head, down->tail
 
+            
+            // ** BIG NOTE THAT WE CANT ACTUAL JUST SET startingCoords
+            // AND THEN CHANGE THEM BECAUSE IT ACTUALLY AFFECTS 
+            // THE COORDINATES! THIS IS BECAUSE WE DONT PASS BY 
+            // VALUE WE ARE PASSING BY REFERENCE!! THEREFOR WE 
+            // MUST EXTRACT THE VALUES USING .add()
             if(dir.equals("right")){ // Count from Tail
-                startingCoords = obst.tail.getCurrentCoords(); 
+
+                startingCoords.add(obst.tail.getCurrentCoords().get(0));
+                startingCoords.add(obst.tail.getCurrentCoords().get(1));
+                //startingCoords = obst.tail.getCurrentCoords(); -> FAIL BECAUSE OF PASS BY REFERENECE
+                movingCoords = obst.right;
             }
             else{ // Count from Head
-                startingCoords = obst.header.getCurrentCoords(); 
+                //startingCoords = obst.header.getCurrentCoords(); 
+                startingCoords.add(obst.header.getCurrentCoords().get(0));
+                startingCoords.add(obst.header.getCurrentCoords().get(1));
+                movingCoords = obst.left;
             }
-
-
-            for(int i = 0; i < spaces; i++){
-
-                
-            }
-
-
 
         }
         else if(obstOrientation == 'V'){
@@ -326,18 +331,50 @@ public class Board {
 
 
             if(dir.equals("down")){ // Count from Tail
-                startingCoords = obst.tail.getCurrentCoords(); 
+                //startingCoords = obst.tail.getCurrentCoords(); 
+                startingCoords.add(obst.tail.getCurrentCoords().get(0));
+                startingCoords.add(obst.tail.getCurrentCoords().get(1));
+
+                movingCoords = obst.down;
             }
             else{ // Count from Head
-                startingCoords = obst.header.getCurrentCoords(); 
+                //startingCoords = obst.header.getCurrentCoords(); 
+                startingCoords.add(obst.header.getCurrentCoords().get(0));
+                startingCoords.add(obst.header.getCurrentCoords().get(1));
+                movingCoords = obst.up;
             }
-
-
-
+        }
+        else{
+            System.out.println("Board.java, CHECK MOVE WENT WRONG IN OREINTATION CHECKING!");
+            return false;
         }
 
+       
 
-        return false;
+        
+        // Keep going in that direction and if there is something blocking
+        // OR IT IS THE END OF THE BOARD we return false. If it finishes
+        // the loop we RETURN true;
+        for(int i = 0; i < spaces; i++){
+            startingCoords.set(0, startingCoords.get(0) + movingCoords[0]);
+            startingCoords.set(1, startingCoords.get(1) + movingCoords[1]);
+
+
+            // Checks if we are still in range of the board
+            if(startingCoords.get(0) < 0 
+                    || startingCoords.get(0) > 5
+                    || startingCoords.get(1) < 0 
+                    || startingCoords.get(1) > 5){return false;}
+            // Checks to make sure there is nothing already there
+            else if(boardState.get(startingCoords.get(0)).get(startingCoords.get(1)) != ' '){
+                return false;
+            }
+        }
+
+        
+
+        return true;
+ 
     }
 
     

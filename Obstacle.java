@@ -16,20 +16,23 @@ import java.util.ArrayList;
 //  ** IT DOES NOT CHECK MOVEMENT ONLY PERFORM IT! CHECKING IS DONE BY Board.checkMove(). 
 //
 //      Important & Attributes, Their Purpose:
-//              final int[] up= new int[]    { -1, 0}; } Reponsible for movement math to be able to 
-//              final int[] down= new int[]  { +1, 0}; } change coordinates appropriately when moving
-//              final int[] left= new int[]  { 0, -1}; } objects based on the direction given. 
-//              final int[] right= new int[] { 0,  1}; } 
+//              public static final int[] up= new int[]    { -1, 0}; } Reponsible for movement math to be able to 
+//              public static final int[] down= new int[]  { +1, 0}; } change coordinates appropriately when moving
+//              public static final int[] left= new int[]  { 0, -1}; } objects based on the direction given. 
+//              public static final int[] right= new int[] { 0,  1}; } 
 //
 //              Node header -> Tracks the BEGINNING OF THE LINKED LIST
 //              Node tail   -> Tracks the END OF THE LINKED LIST
 //
 public class Obstacle {
 
-   final int[] up= new int[]    { -1, 0};
-   final int[] down= new int[]  { +1, 0};
-   final int[] left= new int[]  { 0,  -1};
-   final int[] right= new int[] { 0,  1};
+    // Why are they static? -> So I can call 
+    // them without having to create an actual
+    // obstacle
+   public final int[] up= new int[]    { 0, -1};
+   public final int[] down= new int[]  { 0, +1};
+   public final int[] left= new int[]  { -1,  0};
+   public final int[] right= new int[] { +1,  0};
 
    Node header;
    Node tail; 

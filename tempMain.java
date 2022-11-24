@@ -3,29 +3,6 @@ import java.util.ArrayList;
 public class tempMain {
 
 
-    private static String board = """
-        ╔═══╦═══════╦═══════╦═══════╦═══════╦═══════╦═══════╗
-        ║ 0 ║   1   ║   2   ║   3   ║   4   ║   5   ║   6   ║
-        ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣
-        ║ 1 ║       ║       ║       ║       ║       ║       ║
-        ║   ║       ║       ║       ║       ║       ║       ║
-        ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣
-        ║ 2 ║       ║       ║       ║       ║       ║       ║   
-        ║   ║       ║       ║       ║       ║       ║       ║   
-        ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣
-        ║ 3 ║       ║       ║       ║       ║       ║       ║
-        ║   ║       ║       ║       ║       ║       ║       ║   
-        ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣
-        ║ 4 ║       ║       ║       ║       ║       ║       ║
-        ║   ║       ║       ║       ║       ║       ║       ║   
-        ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╣═══════╣
-        ║ 5 ║       ║       ║       ║       ║       ║       ║ 
-        ║   ║       ║       ║       ║       ║       ║       ║   
-        ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╣═══════╣
-        ║ 6 ║       ║       ║       ║       ║       ║       ║
-        ║   ║       ║       ║       ║       ║       ║       ║       
-        ╚═══╩═══════╩═══════╩═══════╩═══════╩═══════╝═══════╝
-                    """;
 
     public static void main (String args[]){
 
@@ -94,24 +71,24 @@ public class tempMain {
         //          R, 0,0,2,right
         //  -> DO THIS LATER, FIRST WE SETTLE MOVING! 
 
-        newBoard.moveObst('R',"right",1);
-        newBoard.update(); 
-        newBoard.printBoard();
+        // newBoard.moveObst('R',"right",1);
+        // newBoard.update(); 
+        // newBoard.printBoard();
 
 
-        newBoard.moveObst('R',"left",1);
-        newBoard.update(); 
-        newBoard.printBoard();
+        // newBoard.moveObst('R',"left",1);
+        // newBoard.update(); 
+        // newBoard.printBoard();
 
 
-        newBoard.moveObst('R',"down",1);
-        newBoard.update(); 
-        newBoard.printBoard();
+        // newBoard.moveObst('R',"down",1);
+        // newBoard.update(); 
+        // newBoard.printBoard();
 
 
-        newBoard.moveObst('R',"up",1);
-        newBoard.update(); 
-        newBoard.printBoard();
+        // newBoard.moveObst('R',"up",1);
+        // newBoard.update(); 
+        // newBoard.printBoard();
 
         // newBoard.moveObst('Z',"left",1);
         // newBoard.update(); 
@@ -123,8 +100,64 @@ public class tempMain {
         //System.out.println(newBoard.obstacleMap.get('Z').header.currentCoords);
         //System.out.println(newBoard.obstacleMap.get('Z').tail.currentCoords);
 
-        newBoard.checkMove('R',"down",1);
-        newBoard.checkMove('Z',"down",1);
+        
+
+        newBoard.update();
+        newBoard.printBoard();
+        zebra.printList(); 
+
+        System.out.println();
+        System.out.println("checkMove Testing:");
+        boolean check;
+
+        System.out.println("MOVING R LEFT 1 OUT OF BOUNDS");
+        check = newBoard.checkMove('R',"left",1);
+        System.out.println(check);
+        System.out.println("--------------------------\n");
+
+        System.out.println("MOVING R RIGHT 3 VALID");
+        check = newBoard.checkMove('R',"right",3);
+        System.out.println(check);
+        System.out.println("--------------------------\n");
+
+
+        System.out.println("MOVING R DOWN 1 BAD DIRECTION");
+        check = newBoard.checkMove('R',"down",1);
+        System.out.println(check);
+        System.out.println("--------------------------\n");
+
+        System.out.println("MOVING R UP 1 BAD DIRECTION & OUT OF BOUNDS");
+        check = newBoard.checkMove('R',"up",1);
+        System.out.println(check);
+        System.out.println("--------------------------\n");
+
+
+        // ---------------------------------------------
+        System.out.println("MOVING Z LEFT 3 OUT OF BOUNDS");
+        check = newBoard.checkMove('Z',"left",3);
+        System.out.println(check);
+        System.out.println("--------------------------\n");
+
+        System.out.println("MOVING Z RIGHT 1 VALID");
+        check = newBoard.checkMove('Z',"right",1);
+        System.out.println(check);
+        System.out.println("--------------------------\n");
+
+        System.out.println("MOVING Z LEFT 1 VALID");
+        check = newBoard.checkMove('Z',"left",1);
+        System.out.println(check);
+        System.out.println("--------------------------\n");
+
+        System.out.println("MOVING Z UP 1, INCORRECT ORIENTATION");
+        check = newBoard.checkMove('Z',"up",1);
+        System.out.println(check);
+        System.out.println("--------------------------\n");
+
+        System.out.println("MOVING Z DOWN 1, INCORRECT ORIENTATION");
+        check = newBoard.checkMove('Z',"down",1);
+        System.out.println(check);
+        System.out.println("--------------------------\n");
+
 
 
 

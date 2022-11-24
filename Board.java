@@ -4,20 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-
-// Board.java Write-Up
-//      The Board.java class is responsible for tracking the state of the 
-//  game board. It tracks the location of Obstacles & the player as well 
-//  displays the board to the player. 
-//
-//      GRID_WIDTH  := Width of Game Board 
-//      GRID_HEIGHT := Height of Game Board
-//
-//      boardState := Tracks the board state as characters
-//
-
-
-
 // Board.java Write-Up:
 //      The Board class is mainly responsible for tracking the current state of the
 //  game board. It tracks the LOCATION of OBSTACLES (and as a result, PLAYER) as all
@@ -26,7 +12,7 @@ import java.util.Set;
 //  are valid as well as initiating the appropraite coordiante changes in the Obstacle
 //  class. 
 //
-//      Important Functions & Attributes, Their Purpose & Logic:
+//      Important & Attributes, Their Purpose:
 //          ArrayList<ArrayList<Character> > boardState := responsible for tracking the board state via
 //                                                         a 2D-ArrayList of characters. Each Obstacle
 //                                                         node is represented as it's respective character.
@@ -39,9 +25,6 @@ import java.util.Set;
 //                                                       retrieve the Zebra object. Helps with move checking
 //                                                       too. 
 //
-
-
-
 public class Board {
 
 

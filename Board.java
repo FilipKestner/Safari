@@ -273,7 +273,7 @@ public class Board {
         differenceCoords.add( obst.header.currentCoords.get(0) - obst.header.next.currentCoords.get(0));
         differenceCoords.add( obst.header.currentCoords.get(1) - obst.header.next.currentCoords.get(1));
 
-        if(differenceCoords.get(0) == 1){obstOrientation = 'V';}
+        if(differenceCoords.get(0) == 0){obstOrientation = 'V';}
         else{obstOrientation = 'H';}
 
         //System.out.println(differenceCoords + " | " + obstChar + " | " + obstOrientation);

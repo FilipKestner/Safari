@@ -1,4 +1,4 @@
-public class gamesession {
+public class GameSession {
    
    
 //    private int moveCounter = 0;
@@ -156,9 +156,9 @@ public class gamesession {
 
     //print board
 
-    public static void play(){
+    public void play(){
         // Initiates a game session and actually plays it. 
-
+        printIntro(); 
 
 
     }

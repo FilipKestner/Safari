@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 
 public class tempMain {
 
@@ -158,6 +160,50 @@ public class tempMain {
         System.out.println(check);
         System.out.println("--------------------------\n");
 
+
+
+
+
+
+        System.out.println("CHECKING AND THEN MOVING:");
+        Scanner kb = new Scanner(System.in); 
+        System.out.println("\tEnter a MOVE with the Following Format:");
+        System.out.println("\t | ANIMAL_CHAR DIRECTION SPACES");
+        System.out.println("\t | R right 3");
+        String movement = kb.nextLine(); 
+
+        //String[] splitMove = Arrays.asList(movement.split(" "));
+
+        String[] splitMove = movement.split(" ");
+
+        System.out.println(splitMove[0]);
+
+        for(String x : splitMove){
+            System.out.printf("%s | ",x);
+        }
+        System.out.println();
+
+        // So now:
+        //      splitMove[0] = animalChar
+        //      splitMove[1] = dir
+        //      splitMove[2] = spaces
+
+        Obstacle toMove = newBoard.obstacleMap.get(splitMove[0].charAt(0)); 
+        char anChar = splitMove[0].charAt(0);
+        String direction = splitMove[1];
+        int spaceCont = Integer.valueOf(splitMove[2]); // Converts string to int
+        toMove.printList();
+        if(newBoard.checkMove(anChar,direction,spaceCont)){
+
+            System.out.println("VALID MOVE LETS MOVE IT!");
+            newBoard.moveObst(anChar,direction,spaceCont); 
+        }
+        else{System.out.println("BAD MOVE DONT DO ANYTHING!");}
+
+        toMove.printList(); 
+        newBoard.update(); 
+        newBoard.printBoard(); 
+        
 
 
 

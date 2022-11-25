@@ -364,9 +364,9 @@ public class Board {
 
             // Checks if we are still in range of the board
             if(startingCoords.get(0) < 0 
-                    || startingCoords.get(0) > 5
+                    || startingCoords.get(0) > GRID_WIDTH-1
                     || startingCoords.get(1) < 0 
-                    || startingCoords.get(1) > 5){return false;}
+                    || startingCoords.get(1) > GRID_HEIGHT-1){return false;}
             // Checks to make sure there is nothing already there
             else if(boardState.get(startingCoords.get(0)).get(startingCoords.get(1)) != ' '){
                 return false;

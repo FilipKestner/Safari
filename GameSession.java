@@ -1,3 +1,5 @@
+import java.util.Scanner; 
+
 public class GameSession {
    
    
@@ -154,12 +156,43 @@ public class GameSession {
                 "Type ‘rules’ to view the rules:\n");
     }//print leaderboard
 
-    //print board
+
+
+
+
+    // Setting Up Session Variables:
+    // -----------------------------------------------
+    Scanner keyboard = new Scanner(System.in); 
+    Board board = new Board(); 
+    int moveCounter = 0;
+    String userInput; 
+    // -----------------------------------------------
+
+    private String getUserInput(){
+        String input = keyboard.nextLine(); 
+        return input; 
+    }
 
     public void play(){
         // Initiates a game session and actually plays it. 
-        printIntro(); 
 
+        
+        printIntro(); 
+        userInput = getUserInput(); 
+
+        while(true){
+            // This is our main game loop, and we will:
+            //      1. ASK FOR INPUT START OF LOOP
+            //      2. CHECK THE INPUT 
+            //      3. DO WHAT THE INPUT SAYS
+            //      4. UPDATE & PRINT BOARD
+            //      5. -----------------------> 
+
+
+
+
+
+        }
 
     }
 }

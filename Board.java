@@ -237,6 +237,8 @@ public class Board {
         for(int i = 0; i < spaces; i++){
             obstToMove.move(obstToMove, dir); //Call the move function for as many times as requested by spaces
         }
+
+        //this.update(); 
     }
 
     public boolean checkMove(char obstChar, String dir, int spaces){

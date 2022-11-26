@@ -36,6 +36,8 @@ public class tempMain {
         //Obstacle linkedList, ArrayList<Integer> currentCoords, char animalChar
 
         // 2 Zebra
+        // Note that we're reusing the same variables that we used in Rhino.
+        // We're just overriding the values.
         Obstacle zebra = new Obstacle(); 
         aChar = 'Z'; 
 

@@ -1,8 +1,9 @@
-import java.util.Scanner; 
+import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GameSession {
-   
-   
+
+
 //    private int moveCounter = 0;
 //    Board board = new Board();
 //    Player player = new Player();
@@ -48,12 +49,14 @@ public class GameSession {
                 "    `**-*`\"\"               *---*\n" +
                 "\n" +
                 "\n" +
-                "Press Enter to start playing:\n" +
+                "Type 'play' to start playing:\n" +
                 "\n" +
                 "Press ‘?’ to view the “How To Play” page:\n" +
-                "Type ‘LB’ to view the leaderboard:\n");
+                "Type ‘LB’ to view the leaderboard:\n" +
+                "Type r to view the rules of the game");
     }
-    public static void printRules(){
+
+    public static void printRules() {
         System.out.println("_______  _____  _____  _____     ________   ______   \n" +
                 "|_   __ \\|_   _||_   _||_   _|   |_   __  |.' ____ \\\n" +
                 "  | |__) | | |    | |    | |       | |_ \\_|| (___ \\_| \n" +
@@ -74,7 +77,8 @@ public class GameSession {
                 "\n" +
                 "Type ‘exit’ to exit this page:\n" +
                 "Press ‘?’ to view the “How To Play” page:\n" +
-                "Type ‘LB’ to view the leaderboard:\n");
+                "Type ‘LB’ to view the leaderboard:\n" +
+                "Type 'play' to start playing!");
     }//print rules
 
     public static void printHowTo() {//print how-to
@@ -111,9 +115,11 @@ public class GameSession {
                 "\n" +
                 "Type ‘exit’ to exit this page:\n" +
                 "Type ‘rules’ to view the rules page:\n" +
-                "Type ‘LB’ to view the leaderboard:\n");
+                "Type ‘LB’ to view the leaderboard:\n" +
+                "Type 'play' to start playing!");
     }
-    public static void printLB(){
+
+    public static void printLB() {
         System.out.println(" _____     ________       _       ______   ________  _______          \n" +
                 " |_   _|   |_   __  |     / \\     |_   _ `.|_   __  ||_   __ \\         \n" +
                 "   | |       | |_ \\_|    / _ \\      | | `. \\ | |_ \\_|  | |__) |______  \n" +
@@ -153,46 +159,111 @@ public class GameSession {
                 " \n" +
                 "Type ‘exit’ to exit this page:\n" +
                 "Press ‘?’ to view the “How To Play” page:\n" +
-                "Type ‘rules’ to view the rules:\n");
+                "Type ‘rules’ to view the rules:\n" +
+                "Type 'play' to start playing!");
     }//print leaderboard
-
-
-
 
 
     // Setting Up Session Variables:
     // -----------------------------------------------
-    Scanner keyboard = new Scanner(System.in); 
-    Board board = new Board(); 
+    static Scanner keyboard = new Scanner(System.in);
+    Board board = new Board();
     int moveCounter = 0;
-    String userInput; 
+    String userInput;
     // -----------------------------------------------
 
-    private String getUserInput(){
-        String input = keyboard.nextLine(); 
-        return input; 
+    private static void getUserInput() {
+        Board newBoard = new Board();
+        String input = keyboard.nextLine();
+
+        switch (input.toLowerCase()) {
+
+            case "?": printHowTo();
+                getUserInput();
+                break;
+
+            case "r": printRules();
+                getUserInput();
+                break;
+            case "lb": printLB();
+                getUserInput();
+                break;
+            case "play":
+                /*
+                NOTE: Under here is the pre-filled part of the board.
+                This will be replaced by readLevel() which will be stored in a .txt file fill the baord
+                through that function.
+                 */
+                ArrayList<Obstacle> fill = new ArrayList<>();
+
+
+                //RHINO OBSTACLE
+                Obstacle rhino = new Obstacle();
+                char idChar = 'R';
+                ArrayList<Integer> coords1 = new ArrayList<>();
+                ArrayList<Integer> coords2 = new ArrayList<>();
+                coords1.add(3);
+                coords1.add(3);
+
+                coords2.add(3);
+                coords2.add(2);
+
+                rhino.insert(rhino, coords1, idChar); //Rhino TAIL (3, 3)
+                rhino.insert(rhino, coords2, idChar); //Rhino HEAD (3, 2)
+
+                fill.add(rhino);
+
+                //GIRAFFE OBSTACLE
+                Obstacle giraffe = new Obstacle();
+                idChar = 'G';
+                coords1 = new ArrayList<>(); //clears the arraylist
+                coords2 = new ArrayList<>(); //clears the arrayList
+                coords1.add(4);
+                coords1.add(5);
+                coords2.add(5);
+                coords2.add(5);
+
+                giraffe.insert(giraffe, coords1, idChar);
+                giraffe.insert(giraffe, coords2, idChar);
+
+                fill.add(giraffe);
+
+                newBoard.populate(fill);
+                newBoard.update();
+                newBoard.printBoard();
+                keyboard.nextLine();
+                System.out.println("Select a move: ");
+                giraffe.move(giraffe, "left");
+                newBoard.update();
+                newBoard.printBoard();
+
+                getUserInput();
+                break;
+
+
+
+            case "exit":printIntro();
+        }
     }
 
-    public void play(){
-        // Initiates a game session and actually plays it. 
-
-        
-        printIntro(); 
-        userInput = getUserInput(); 
+    public static void play() {
+        // Initiates a game session and actually plays it.
+        printIntro();
 
         while(true){
-            // This is our main game loop, and we will:
-            //      1. ASK FOR INPUT START OF LOOP
-            //      2. CHECK THE INPUT 
-            //      3. DO WHAT THE INPUT SAYS
-            //      4. UPDATE & PRINT BOARD
-            //      5. -----------------------> 
-
-
-
-
-
+            getUserInput();
         }
 
+
+        // This is our main game loop, and we will:
+        //      1. ASK FOR INPUT START OF LOOP
+        //      2. CHECK THE INPUT
+        //      3. DO WHAT THE INPUT SAYS
+        //      4. UPDATE & PRINT BOARD
+        //      5. ----------------------->
+
+
     }
+
 }
+

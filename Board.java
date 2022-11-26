@@ -307,7 +307,7 @@ public class Board {
             
             // ** BIG NOTE THAT WE CANT ACTUAL JUST SET startingCoords
             // AND THEN CHANGE THEM BECAUSE IT ACTUALLY AFFECTS 
-            // THE COORDINATES! THIS IS BECAUSE WE DONT PASS BY 
+            // THE COORDINATES! THIS IS BECAUSE WE DON'T PASS BY
             // VALUE WE ARE PASSING BY REFERENCE!! THEREFOR WE 
             // MUST EXTRACT THE VALUES USING .add()
             if(dir.equals("right")){ // Count from Tail

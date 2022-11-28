@@ -325,8 +325,16 @@ public class GameSession {
         // uploadSB("Ben");
         // printSB("Scoreboard",0);
 
+        
+
         Board newBoard = new Board();
         Player player = new Player(); 
+
+        System.out.println("Enter Your Name: ");
+        player.setName(keyboard.nextLine());
+
+        player.getName(); 
+
         while(true){
             getUserInput();
         }

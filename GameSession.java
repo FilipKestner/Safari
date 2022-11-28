@@ -1,6 +1,15 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
+// SQL IMPORTS:
+import java.sql.*;
+import java.util.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.Scanner;
+// -------------------------------
+
 public class GameSession {
 
 
@@ -164,6 +173,66 @@ public class GameSession {
     }//print leaderboard
 
 
+
+    public static void printSB(String A, int level){
+
+        if ( A == "Scoreboard") {
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/scoreboard",
+                        "postgres", "rentsek247");
+    
+                Statement statement = connection.createStatement();
+
+
+                ResultSet resultSet = statement.executeQuery(
+                    "SELECT * from score"); //  where level_id==" + level + '"');
+            while (resultSet.next()) {
+                int id = resultSet.getInt(1);
+                String name1 = resultSet.getString(2);
+                int sqlLVL = resultSet.getInt(3);
+                int moves = resultSet.getInt(4);
+                System.out.println("id:" + id + " name:" + name1 + " level:" + sqlLVL + " moves:" + moves);
+            }
+            resultSet.close();
+            statement.close();
+            // note: closing the connections will also close the resultset and statement
+            connection.close();
+            System.out.println("Connection closed!");
+    
+        }
+        catch (Exception e){
+            System.out.println("Exception happened.");}
+        }
+
+    }
+
+
+
+    public static void uploadSB(String name){
+        try {
+    Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/scoreboard",
+            "postgres", "rentsek247");
+    Statement statement = connection.createStatement();
+
+    statement.executeUpdate("INSERT INTO score (player_name) values ('" + name + "')");
+
+
+    statement.close();
+    // note: closing the connections will also close the resultset and statement
+    connection.close();
+    System.out.println("Connection closed!");
+
+    }
+    catch (Exception e){
+        System.out.println("Exception happened.");}
+
+    }
+
+
+        
+    
+
+
     // Setting Up Session Variables:
     // -----------------------------------------------
     static Scanner keyboard = new Scanner(System.in);
@@ -249,6 +318,11 @@ public class GameSession {
     public static void play() {
         // Initiates a game session and actually plays it.
         printIntro();
+
+        printSB("Scoreboard",0); 
+
+        uploadSB("Ben");
+        printSB("Scoreboard",0);
 
         while(true){
             getUserInput();

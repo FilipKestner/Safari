@@ -1,3 +1,5 @@
+package be.kdg.integration1.team8.RushHour.model;
+
 import java.util.ArrayList;
 import java.util.Scanner;
 

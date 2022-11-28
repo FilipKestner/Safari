@@ -1,3 +1,6 @@
+package be.kdg.integration1.team8.RushHour.model;
+
+import be.kdg.integration1.team8.RushHour.model.Obstacle;
 
 import java.util.ArrayList;
 
@@ -9,7 +12,7 @@ import java.util.Set;
 //  game board. It tracks the LOCATION of OBSTACLES (and as a result, PLAYER) as all
 //  PRINTS board to player. The board acts as the LINKING LAYER between the player,
 //  and all obstacles. It does this by also being responsible for checking if moves
-//  are valid as well as initiating the appropraite coordiante changes in the Obstacle
+//  are valid as well as initiating the appropriate coordinate changes in the Obstacle
 //  class. 
 //
 //      Important & Attributes, Their Purpose:
@@ -39,7 +42,7 @@ public class Board {
 
     ArrayList<ArrayList<Character> > boardState = new ArrayList< ArrayList<Character>>(); // Tracks actual boardstate for printing
     //char[][] boardState2 = new char[][]();     
-    HashMap<Character, Obstacle> obstacleMap = new HashMap<Character, Obstacle>();        // Dictionary of obstacles 
+    HashMap<Character, Obstacle> obstacleMap = new HashMap<Character, Obstacle>();        // Dictionary of obstacles
 
     
     // Default Constructor with EMPTY OBSTACLE LIST

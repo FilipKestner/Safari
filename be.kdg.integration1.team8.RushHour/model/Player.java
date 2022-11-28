@@ -1,3 +1,5 @@
+package be.kdg.integration1.team8.RushHour.model;
+
 public class Player {
     String playerName; 
     int playerID; 

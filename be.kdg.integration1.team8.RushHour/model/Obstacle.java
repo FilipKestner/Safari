@@ -44,7 +44,7 @@ public class Obstacle {
     //    }
 
 
-   Node header;
+   public Node header;
    Node tail; 
 
     // INSERT

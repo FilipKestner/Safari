@@ -277,8 +277,8 @@ public class GameSession {
                 coords2.add(3);
                 coords2.add(2);
 
-                rhino.insert(rhino, coords1, idChar); //Rhino TAIL (3, 3)
-                rhino.insert(rhino, coords2, idChar); //Rhino HEAD (3, 2)
+                rhino.insert(rhino, 3,3, idChar); //Rhino TAIL (3, 3)
+                rhino.insert(rhino, 3,2, idChar); //Rhino HEAD (3, 2)
 
                 fill.add(rhino);
 
@@ -292,8 +292,8 @@ public class GameSession {
                 coords2.add(5);
                 coords2.add(5);
 
-                giraffe.insert(giraffe, coords1, idChar);
-                giraffe.insert(giraffe, coords2, idChar);
+                giraffe.insert(giraffe, 4,5, idChar);
+                giraffe.insert(giraffe, 5,5, idChar);
 
                 fill.add(giraffe);
 
@@ -319,11 +319,12 @@ public class GameSession {
         // Initiates a game session and actually plays it.
         printIntro();
 
-        printSB("Scoreboard",0); 
+        // printSB("Scoreboard",0); 
+        // uploadSB("Ben");
+        // printSB("Scoreboard",0);
 
-        uploadSB("Ben");
-        printSB("Scoreboard",0);
-
+        Board newBoard = new Board();
+        Player player = new Player(); 
         while(true){
             getUserInput();
         }

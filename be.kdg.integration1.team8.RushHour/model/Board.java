@@ -29,8 +29,8 @@ public class Board {
 
 
     // SIZE OF THE BOARD: 
-    final int GRID_WIDTH = 6;
-    final int GRID_HEIGHT = 6; 
+    final int gridWidth = 6;
+    final int gridHeight = 6; 
     // ------------------------
     // ** NOT IMPLEMENTED CORRECTLY 
     // IN THE PRINTING FUCNTION!
@@ -38,14 +38,15 @@ public class Board {
 
 
     ArrayList<ArrayList<Character> > boardState = new ArrayList< ArrayList<Character>>(); // Tracks actual boardstate for printing
+    //char[][] boardState2 = new char[][]();     
     HashMap<Character, Obstacle> obstacleMap = new HashMap<Character, Obstacle>();        // Dictionary of obstacles 
 
     
     // Default Constructor with EMPTY OBSTACLE LIST
     public Board(){
-        for(int i = 0; i < GRID_WIDTH; i++){
+        for(int i = 0; i < gridWidth; i++){
             this.boardState.add(new ArrayList<Character>());
-            for(int j = 0; j < GRID_HEIGHT; j++){
+            for(int j = 0; j < gridHeight; j++){
                 this.boardState.get(i).add(' ');
             }
 
@@ -54,9 +55,9 @@ public class Board {
 
     // Constructor with OBSTACLE LIST
     public Board(ArrayList<Obstacle> obstacles){
-        for(int i = 0; i < GRID_WIDTH; i++){
+        for(int i = 0; i < gridWidth; i++){
             this.boardState.add(new ArrayList<Character>());
-            for(int j = 0; j < GRID_HEIGHT; j++){
+            for(int j = 0; j < gridHeight; j++){
                 this.boardState.get(i).add(' ');
             }
         }
@@ -104,10 +105,10 @@ public class Board {
 
         // 2. FILL the board with EMPTY BOXES to ensure that
         // we do not cause an OUT OF BOUNDS ERROR
-        for(int i = 0; i < GRID_WIDTH; i++){
+        for(int i = 0; i < gridWidth; i++){
             //ArrayList<Character> emptyList = new ArrayList<Character>
             this.boardState.add(new ArrayList<Character>());
-            for(int j = 0; j < GRID_HEIGHT; j++){
+            for(int j = 0; j < gridHeight; j++){
                 this.boardState.get(i).add(' ');
             }
         }
@@ -120,11 +121,11 @@ public class Board {
         Set<Character> obstKeys = obstacleMap.keySet(); // Get all keys in obstacleMap
 
         for(char x : obstKeys){ // For every ket in the dictionary
-            Obstacle.Node curNode = obstacleMap.get(x).header; // Get the appropriate obstacle
+            Node curNode = obstacleMap.get(x).header; // Get the appropriate obstacle
         
             while(curNode != null){ // Iterate through the Obstacle LL
-                boardState.get(curNode.currentCoords.get(1))                        // Set Node(x,y) on boardState as
-                    .set( curNode.currentCoords.get(0), curNode.getAnimalChar());   // the appropriate animal char.
+                boardState.get(curNode.getY())                        // Set Node(x,y) on boardState as
+                    .set( curNode.getX(), curNode.getAnimalChar());   // the appropriate animal char.
 
             
                 curNode = curNode.next; // Move on to next node in the Obstacle object.
@@ -140,8 +141,8 @@ public class Board {
     //       the characters with the appropriate formatting to look like a board.
     public void printBoard(){
         // STILL ON THE DOCKET:
-        //      1. Convert the print function to only print GRID_WIDTH number of boxes.
-        //      It should already only print GRID_HEIGHT in terms of HEIGHT but WIDTH IS STILL NOT FIXED!
+        //      1. Convert the print function to only print gridWidth number of boxes.
+        //      It should already only print gridHeight in terms of HEIGHT but WIDTH IS STILL NOT FIXED!
         //          -> A solution is to simply make a total lines string that would take the place of: 
         //              System.out.print("║   ║       ║       ║       ║       ║       ║       ║\n"); 
         //              and ALL OTHER STATIC PRINTING STRINGS IN THE FUNCTION!
@@ -152,10 +153,10 @@ public class Board {
             ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣
                 """);
 
-        for(int i = 0; i < GRID_WIDTH; i++){
+        for(int i = 0; i < gridWidth; i++){
             System.out.print("║   ║       ║       ║       ║       ║       ║       ║\n");
             System.out.printf("║ %d ║",i+1);
-            for(int j = 0; j < GRID_HEIGHT; j++){
+            for(int j = 0; j < gridHeight; j++){
 
                 if(boardState.get(i).get(j) != ' '){
                     System.out.printf("   %c   ║",boardState.get(i).get(j));
@@ -169,7 +170,7 @@ public class Board {
             System.out.print("""
                 ║   ║       ║       ║       ║       ║       ║       ║   
                     """);
-            if(i < GRID_HEIGHT-1){
+            if(i < gridHeight-1){
                 System.out.print("""
                     ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣
                         """);
@@ -270,12 +271,20 @@ public class Board {
 
         // 1. Check orientation of Obstacle:
         char obstOrientation; 
-        ArrayList<Integer> differenceCoords = new ArrayList<Integer>();
+        //ArrayList<Integer> differenceCoords = new ArrayList<Integer>();
+        int differenceX;
+        int differenceY;
 
-        differenceCoords.add( obst.header.currentCoords.get(0) - obst.header.next.currentCoords.get(0));
-        differenceCoords.add( obst.header.currentCoords.get(1) - obst.header.next.currentCoords.get(1));
+        // WE CAN ASSUME EVERY OBSTACLE IS AT LEAST 2 NODES LONG SO THIS
+        // WILL ALWAYS WORK!
+        // differenceCoords.add( obst.header.currentCoords.get(0) - obst.header.next.currentCoords.get(0));
+        differenceX = obst.header.getX() - obst.header.next.getX(); 
+        // differenceCoords.add( obst.header.currentCoords.get(1) - obst.header.next.currentCoords.get(1));
+        differenceY = obst.header.getY() - obst.header.next.getY(); 
 
-        if(differenceCoords.get(0) == 0){obstOrientation = 'V';}
+        
+
+        if(differenceX == 0){obstOrientation = 'V';}
         else{obstOrientation = 'H';}
 
         //System.out.println(differenceCoords + " | " + obstChar + " | " + obstOrientation);
@@ -287,9 +296,11 @@ public class Board {
 
 
 
-        ArrayList<Integer> startingCoords = new ArrayList<Integer>();
+        //ArrayList<Integer> startingCoords = new ArrayList<Integer>();
+        int startingX;
+        int startingY;
 
-        int[] movingCoords; 
+        int[] movingCoords = new int[2]; 
 
         if(obstOrientation == 'H'){
 
@@ -310,18 +321,30 @@ public class Board {
             // THE COORDINATES! THIS IS BECAUSE WE DON'T PASS BY
             // VALUE WE ARE PASSING BY REFERENCE!! THEREFOR WE 
             // MUST EXTRACT THE VALUES USING .add()
+            // up,   // -> { 0, -1}
+            // down, // -> { 0, +1}
+            // left, // -> { -1, 0}
+            // right // -> { +1, 0}
             if(dir.equals("right")){ // Count from Tail
 
-                startingCoords.add(obst.tail.getCurrentCoords().get(0));
-                startingCoords.add(obst.tail.getCurrentCoords().get(1));
+                //startingCoords.add(obst.tail.getCurrentCoords().get(0));
+                startingX = obst.tail.getX();
+                //startingCoords.add(obst.tail.getCurrentCoords().get(1));
+                startingY = obst.tail.getY();
                 //startingCoords = obst.tail.getCurrentCoords(); -> FAIL BECAUSE OF PASS BY REFERENECE
-                movingCoords = obst.right;
+                //movingCoords = obst.right;
+                movingCoords[0] = 1;
+                movingCoords[1] = 0;
             }
             else{ // Count from Head
-                //startingCoords = obst.header.getCurrentCoords(); 
-                startingCoords.add(obst.header.getCurrentCoords().get(0));
-                startingCoords.add(obst.header.getCurrentCoords().get(1));
-                movingCoords = obst.left;
+                // startingCoords = obst.header.getCurrentCoords(); 
+                // startingCoords.add(obst.header.getCurrentCoords().get(0));
+                // startingCoords.add(obst.header.getCurrentCoords().get(1));
+                startingX = obst.header.getX(); 
+                startingY = obst.header.getY(); 
+                //movingCoords = obst.left;
+                movingCoords[0] = -1;
+                movingCoords[1] = 0;
             }
 
         }
@@ -334,16 +357,26 @@ public class Board {
 
             if(dir.equals("down")){ // Count from Tail
                 //startingCoords = obst.tail.getCurrentCoords(); 
-                startingCoords.add(obst.tail.getCurrentCoords().get(0));
-                startingCoords.add(obst.tail.getCurrentCoords().get(1));
+                // startingCoords.add(obst.tail.getCurrentCoords().get(0));
+                // startingCoords.add(obst.tail.getCurrentCoords().get(1));
 
-                movingCoords = obst.down;
+                startingX = obst.tail.getX();
+                startingY = obst.tail.getY();
+
+                //movingCoords = obst.down;
+                movingCoords[0] = 0;
+                movingCoords[1] = 1;
             }
             else{ // Count from Head
                 //startingCoords = obst.header.getCurrentCoords(); 
-                startingCoords.add(obst.header.getCurrentCoords().get(0));
-                startingCoords.add(obst.header.getCurrentCoords().get(1));
-                movingCoords = obst.up;
+                // startingCoords.add(obst.header.getCurrentCoords().get(0));
+                // startingCoords.add(obst.header.getCurrentCoords().get(1));
+                startingX = obst.header.getX(); 
+                startingY = obst.header.getY(); 
+
+                //movingCoords = obst.up;
+                movingCoords[0] = -1;
+                movingCoords[1] = 0;
             }
         }
         else{
@@ -358,17 +391,21 @@ public class Board {
         // OR IT IS THE END OF THE BOARD we return false. If it finishes
         // the loop we RETURN true;
         for(int i = 0; i < spaces; i++){
-            startingCoords.set(0, startingCoords.get(0) + movingCoords[0]);
-            startingCoords.set(1, startingCoords.get(1) + movingCoords[1]);
+            //startingCoords.set(0, startingCoords.get(0) + movingCoords[0]);
+            startingX = startingX + movingCoords[0];
+            //startingCoords.set(1, startingCoords.get(1) + movingCoords[1]);
+            startingY = startingY + movingCoords[1];
 
 
             // Checks if we are still in range of the board
-            if(startingCoords.get(0) < 0 
-                    || startingCoords.get(0) > GRID_WIDTH-1
-                    || startingCoords.get(1) < 0 
-                    || startingCoords.get(1) > GRID_HEIGHT-1){return false;}
+            if(startingX < 0 
+                    || startingX > gridWidth-1
+                    || startingY < 0 
+                    || startingY > gridHeight-1){return false;}
             // Checks to make sure there is nothing already there
-            else if(boardState.get(startingCoords.get(0)).get(startingCoords.get(1)) != ' '){
+            //else if(boardState.get(startingCoords.get(0)).get(startingCoords.get(1)) != ' '){
+            else if(boardState.get(startingX).get(startingY) != ' '){
+
                 return false;
             }
         }

@@ -20,13 +20,13 @@ public class tempMain {
         coords1.add(0); 
         coords1.add(0); 
         char aChar = 'R'; 
-        rhino.insert(rhino, coords1, aChar);
+        rhino.insert(rhino, 0,0, aChar);
 
         ArrayList<Integer> coords2 = new ArrayList<Integer>(); 
         coords2.add(0); 
         coords2.add(1);
 
-        rhino.insert(rhino,coords2, aChar);
+        rhino.insert(rhino,0,1, aChar);
 
 
         toAdd.add(rhino); 
@@ -45,17 +45,17 @@ public class tempMain {
         coords1 = new ArrayList<Integer>(); 
         coords1.add(2); 
         coords1.add(3); 
-        zebra.insert(zebra, coords1, aChar);
+        zebra.insert(zebra, 2,3, aChar);
 
         coords1 = new ArrayList<Integer>(); 
         coords1.add(3); 
         coords1.add(3); 
-        zebra.insert(zebra, coords1, aChar);
+        zebra.insert(zebra, 3,3, aChar);
 
         coords1 = new ArrayList<Integer>(); 
         coords1.add(4); 
         coords1.add(3); 
-        zebra.insert(zebra, coords1, aChar);
+        zebra.insert(zebra, 4,3, aChar);
 
 
         toAdd.add(zebra);
@@ -207,7 +207,18 @@ public class tempMain {
         newBoard.printBoard(); 
         
 
+        newBoard.moveObst('R',"down",1);
+        newBoard.update();
+        newBoard.printBoard();
 
+        newBoard.moveObst('R',"down",2);
+        newBoard.update();
+        newBoard.printBoard();
+
+
+        newBoard.moveObst('Z',"left",1);
+        newBoard.update();
+        newBoard.printBoard();
 
     }
 }

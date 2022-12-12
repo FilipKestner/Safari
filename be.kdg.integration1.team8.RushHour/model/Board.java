@@ -1,6 +1,6 @@
-package be.kdg.integration1.team8.RushHour.model;
+package model;
 
-import be.kdg.integration1.team8.RushHour.model.Obstacle;
+//import be.kdg.integration1.team8.RushHour.model.Obstacle;
 
 import java.util.ArrayList;
 
@@ -34,6 +34,9 @@ public class Board {
     // SIZE OF THE BOARD: 
     final int gridWidth = 6;
     final int gridHeight = 6; 
+
+    final int winX = 5;  // (5,3) -> Winning Coordinate 
+    final int winY = 2; 
     // ------------------------
     // ** NOT IMPLEMENTED CORRECTLY 
     // IN THE PRINTING FUCNTION!
@@ -64,7 +67,6 @@ public class Board {
                 this.boardState.get(i).add(' ');
             }
         }
-
         this.populate(obstacles);
     }
 
@@ -157,7 +159,13 @@ public class Board {
                 """);
 
         for(int i = 0; i < gridWidth; i++){
-            System.out.print("║   ║       ║       ║       ║       ║       ║       ║\n");
+            System.out.print("║   ║       ║       ║       ║       ║       ║       ║");
+
+
+            if(this.winY == i){System.out.print("◄\n");}
+            else{System.out.print("\n");}
+
+
             System.out.printf("║ %d ║",i+1);
             for(int j = 0; j < gridHeight; j++){
 
@@ -168,11 +176,20 @@ public class Board {
                     System.out.print("       ║");
                 }
             }
+
+            if(this.winY == i){System.out.print("◄");}
+
+            
             System.out.print("\n");
             
             System.out.print("""
-                ║   ║       ║       ║       ║       ║       ║       ║   
-                    """);
+                ║   ║       ║       ║       ║       ║       ║       ║   """);
+
+
+            if(this.winY == i){System.out.print("◄");}
+            System.out.print("\n");
+
+
             if(i < gridHeight-1){
                 System.out.print("""
                     ╠═══╬═══════╬═══════╬═══════╬═══════╬═══════╬═══════╣
@@ -241,7 +258,6 @@ public class Board {
         for(int i = 0; i < spaces; i++){
             obstToMove.move(obstToMove, dir); //Call the move function for as many times as requested by spaces
         }
-
         //this.update(); 
     }
 
@@ -329,7 +345,6 @@ public class Board {
             // left, // -> { -1, 0}
             // right // -> { +1, 0}
             if(dir.equals("right")){ // Count from Tail
-
                 //startingCoords.add(obst.tail.getCurrentCoords().get(0));
                 startingX = obst.tail.getX();
                 //startingCoords.add(obst.tail.getCurrentCoords().get(1));
@@ -356,7 +371,6 @@ public class Board {
                 // INVALID COMMAND, TRYING TO MOVE VERTICAL PIECE LEFT OR RIGHT
                 return false;
             }
-
 
             if(dir.equals("down")){ // Count from Tail
                 //startingCoords = obst.tail.getCurrentCoords(); 
@@ -386,9 +400,6 @@ public class Board {
             System.out.println("Board.java, CHECK MOVE WENT WRONG IN OREINTATION CHECKING!");
             return false;
         }
-
-       
-
         
         // Keep going in that direction and if there is something blocking
         // OR IT IS THE END OF THE BOARD we return false. If it finishes
@@ -419,5 +430,29 @@ public class Board {
  
     }
 
+
+    public boolean checkWin(){
+        // Checks to see if the Car Obstacle is in fact
+        // in the correct place on the board to 
+        // to constitute a win. 
+
+        Obstacle car = this.obstacleMap.get('C'); 
+        Node curNode = car.header; 
+
+        
+        // Although we only have to check if the tail 
+        // is on the winning tile, we will check every 
+        // node for future proofing. 
+
+        while(curNode != null){
+
+            System.out.println(curNode.getX() + " | " + curNode.getY());
+            if(curNode.getX() == this.winX && curNode.getY() == this.winY){return true;}
+
+            curNode = curNode.next; 
+        }
+
+        return false; 
+    }
     
 }

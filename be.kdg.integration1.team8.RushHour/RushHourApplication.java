@@ -1,9 +1,10 @@
-package be.kdg.integration1.team8.RushHour;
 
-import be.kdg.integration1.team8.RushHour.model.GameSession;
+import model.*;
 
-public class Application {
+public class RushHourApplication {
     public static void main(String[] args) {
-        GameSession.play();
+        GameSession newGame = new GameSession();
+        newGame.play();
     }
 }
+

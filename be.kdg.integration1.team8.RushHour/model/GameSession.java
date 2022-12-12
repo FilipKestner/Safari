@@ -1,8 +1,7 @@
-package be.kdg.integration1.team8.RushHour.model;
+package model;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
 
 // SQL IMPORTS:
 import java.sql.*;
@@ -12,14 +11,29 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 // -------------------------------
 
+// File Reading Imports:
+import java.io.File;
+import java.io.FileNotFoundException;
+// -------------------------------
+
+
 public class GameSession {
+    // Setting Up Session Variables:
+    // -----------------------------------------------
+    static Scanner keyboard = new Scanner(System.in);
+    private Board board = new Board();
+    private int moveCounter = 0;
+    private String userInput;
 
+    enum direction { // Enum to make directions 
+        UP,          // objects and not just
+        DOWN,        // concepts :)))
+        LEFT,
+        RIGHT
+    }
+    // -----------------------------------------------
 
-//    private int moveCounter = 0;
-//    Board board = new Board();
-//    Player player = new Player();
-
-    public static void printIntro() {    //print introduction
+    public static void printIntro() { // print introduction
         System.out.println(" ______        _       ________    _       _______     _____  \n" +
                 ".' ____ \\      / \\     |_   __  |  / \\     |_   __ \\   |_   _| \n" +
                 "| (___ \\_|    / _ \\      | |_ \\_| / _ \\      | |__) |    | |   \n" +
@@ -59,12 +73,10 @@ public class GameSession {
                 "    :  *:   ;             :    |`*-'   `*+-*       \n" +
                 "    `**-*`\"\"               *---*\n" +
                 "\n" +
-                "\n" +
-                "Type 'play' to start playing:\n" +
-                "\n" +
-                "Press ‘?’ to view the “How To Play” page:\n" +
-                "Type ‘LB’ to view the leaderboard:\n" +
-                "Type r to view the rules of the game");
+                "Enter 'play' to start the game:\n" +
+                "Enter '?' to view the “How To Play” page:\n" +
+                "Enter 'LB' to view the leaderboard:\n" +
+                "Enter 'r' to view the rules of the game");
     }
 
     public static void printRules() {
@@ -75,9 +87,10 @@ public class GameSession {
                 " _| |  \\ \\_ \\ \\__/ /    _| |__/ | _| |__/ || \\____) | \n" +
                 "|____| |___| `.__.'    |________||________| \\______.' \n" +
                 "\n" +
-                "You’re playing a car trying to navigate through the safari.\n" +
+                "You're playing a car trying to navigate through the safari.\n" +
                 "Each piece can be moved either up and down, or left and right, depending on how it is positioned.\n" +
-                "Your Safari Jeep can be moved left or right. Your goal is to get to the exit on the far-right side of the board by moving the animals and your car in order to create a clear path towards the exit.\n" +
+                "Your Safari Jeep can be moved left or right. Your goal is to get to the exit on the far-right side of the board by moving the animals and your car in order to create a clear path towards the exit.\n"
+                +
                 "       .-\"-.            .-\"-.            .-\"-. \n" +
                 "     _/_-.-_\\_        _/.-.-.\\_        _/.-.-.\\_ \n" +
                 "    / __} {__ \\      /|( o o )|\\      ( ( o o ) ) \n" +
@@ -86,13 +99,13 @@ public class GameSession {
                 "  \\ \\_/`\"\"\"`\\_/ /  \\ \\_/`\"\"\"`\\_/ /      /`\\ /`\\ \n" +
                 "   \\           /    \\           /      /  /|\\  \\\n" +
                 "\n" +
-                "Type ‘exit’ to exit this page:\n" +
-                "Press ‘?’ to view the “How To Play” page:\n" +
-                "Type ‘LB’ to view the leaderboard:\n" +
-                "Type 'play' to start playing!");
-    }//print rules
+                "Enter 'play' to start the game:\n" +
+                "Enter '?' to view the 'How To Play' instructions:\n" +
+                "Enter 'LB' to view the leaderboard:\n" +
+                "Enter 'r' to view the rules of the game");
+    }// print rules
 
-    public static void printHowTo() {//print how-to
+    public static void printHowTo() {// print how-to
         System.out.println("____  ____   ___   ____      ____   _________    ___    \n" +
                 "|_   ||   _|.'   `.|_  _|    |_  _| |  _   _  | .'   `.  \n" +
                 "  | |__| | /  .-.  \\ \\ \\  /\\  / /   |_/ | | \\_|/  .-.  \\ \n" +
@@ -118,16 +131,18 @@ public class GameSession {
                 "     `\"\"\"`._____  `--,`          `)))\n" +
                 "                `~\"-)))\n" +
                 " \n" +
-                "Step 1: Select which piece you want to move (animal or car) by typing their initials as shown on the gameboard (‘L’ for lion, ‘C’ for Car, ‘R’ for rhino etc.)\n" +
+                "Step 1: Select which piece you want to move (animal or car) by typing their initials as shown on the gameboard ('L' for lion, 'C' for Car, 'R' for rhino etc.)\n"
+                +
                 "\n" +
-                "Step 2: Choose the direction in which you want to move the piece. (Note that the piece can only be moved on the axis that it’s facing. \n" +
-                "[‘U’-- UP] [‘D’-- DOWN] [‘L’ -- LEFT] [‘R’ – RIGHT)]\n" +
+                "Step 2: Choose the direction in which you want to move the piece. (Note that the piece can only be moved on the axis that it's facing. \n"
+                +
+                "\t['U'-- UP] ['D'-- DOWN] ['L' -- LEFT] ['R' – RIGHT)]\n" +
                 "Step 3: Type in the amount of times you want the chosen piece to move (1..4)\n" +
                 "\n" +
-                "Type ‘exit’ to exit this page:\n" +
-                "Type ‘rules’ to view the rules page:\n" +
-                "Type ‘LB’ to view the leaderboard:\n" +
-                "Type 'play' to start playing!");
+                "Enter 'play' to start the game:\n" +
+                "Enter '?' to view the “How To Play” page:\n" +
+                "Enter 'LB' to view the leaderboard:\n" +
+                "Enter 'r' to view the rules of the game");
     }
 
     public static void printLB() {
@@ -168,187 +183,280 @@ public class GameSession {
                 "JANE SMITH   XXX MOVES       5. B. WAYNE    XXX MOVES        8. M. MOUSE   XXX MOVES\n" +
                 "JACK BAKER   XXX MOVES       6. P. PARKER   XXX MOVES        9. O. KENOBI  XXX MOVES\n" +
                 " \n" +
-                "Type ‘exit’ to exit this page:\n" +
-                "Press ‘?’ to view the “How To Play” page:\n" +
-                "Type ‘rules’ to view the rules:\n" +
-                "Type 'play' to start playing!");
-    }//print leaderboard
+                "Enter 'play' to start the game:\n" +
+                "Enter '?' to view the “How To Play” page:\n" +
+                "Enter 'LB' to view the leaderboard:\n" +
+                "Enter 'r' to view the rules of the game");
+    }// print leaderboard
 
+    public static void printSB(String A, int level) {
 
-
-    public static void printSB(String A, int level){
-
-        if ( A == "Scoreboard") {
+        if (A == "Scoreboard") {
             try {
                 Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/scoreboard",
                         "postgres", "rentsek247");
-    
+
                 Statement statement = connection.createStatement();
 
-
                 ResultSet resultSet = statement.executeQuery(
-                    "SELECT * from score"); //  where level_id==" + level + '"');
-            while (resultSet.next()) {
-                int id = resultSet.getInt(1);
-                String name1 = resultSet.getString(2);
-                int sqlLVL = resultSet.getInt(3);
-                int moves = resultSet.getInt(4);
-                System.out.println("id:" + id + " name:" + name1 + " level:" + sqlLVL + " moves:" + moves);
+                        "SELECT * from score"); // where level_id==" + level + '"');
+                while (resultSet.next()) {
+                    int id = resultSet.getInt(1);
+                    String name1 = resultSet.getString(2);
+                    int sqlLVL = resultSet.getInt(3);
+                    int moves = resultSet.getInt(4);
+                    System.out.println("id:" + id + " name:" + name1 + " level:" + sqlLVL + " moves:" + moves);
+                }
+                resultSet.close();
+                statement.close();
+                // note: closing the connections will also close the resultset and statement
+                connection.close();
+                System.out.println("Connection closed!");
+
+            } catch (Exception e) {
+                System.out.println("Exception happened.");
             }
-            resultSet.close();
+        }
+
+    }
+
+    public static void uploadSB(String name) {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/scoreboard",
+                    "postgres", "rentsek247");
+            Statement statement = connection.createStatement();
+
+            statement.executeUpdate("INSERT INTO score (player_name) values ('" + name + "')");
+
             statement.close();
             // note: closing the connections will also close the resultset and statement
             connection.close();
             System.out.println("Connection closed!");
-    
+
+        } catch (Exception e) {
+            System.out.println("Exception happened.");
         }
-        catch (Exception e){
-            System.out.println("Exception happened.");}
-        }
 
     }
 
 
 
-    public static void uploadSB(String name){
-        try {
-    Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/scoreboard",
-            "postgres", "rentsek247");
-    Statement statement = connection.createStatement();
+    private String getUserInput() {
+        this.userInput = keyboard.nextLine();
+        return userInput;
+        // switch (input.toLowerCase()) {
 
-    statement.executeUpdate("INSERT INTO score (player_name) values ('" + name + "')");
+        //     case "?":
+        //         printHowTo();
+        //         getUserInput();
+        //         break;
 
+        //     case "r":
+        //         printRules();
+        //         getUserInput();
+        //         break;
+        //     case "lb":
+        //         printLB();
+        //         getUserInput();
+        //         break;
+    }
 
-    statement.close();
-    // note: closing the connections will also close the resultset and statement
-    connection.close();
-    System.out.println("Connection closed!");
+    private char selectObstacle(){
+        // Call this function when it is time for the
+        // user to select the obstacle which they would 
+        // like to move. This function is also responsible for error handling. 
+
+        return 'R';
+    }
+
+    private direction getDirection(Obstacle obstacle){
+        // Call this function when it is time for the
+        // user to select which direction they would
+        // like to move the obstacle in. 
+
+        return direction.UP; 
+    }
+
+    private int getDistance(){
+        // Call this function when you would like
+        // the user to enter the amount of spaces
+        // they want their selected obstacle to
+        // move. 
+
+        return 0; 
 
     }
-    catch (Exception e){
-        System.out.println("Exception happened.");}
 
+    private boolean getMove(){
+        // Combines all 3 steps of the user selecting
+        // a move and combines them to allow for more
+        // holisitic error checking as well as 
+        // repetition of requests if invalid input
+        // is entered. 
+
+        return false;
     }
 
 
-        
-    
 
 
-    // Setting Up Session Variables:
-    // -----------------------------------------------
-    static Scanner keyboard = new Scanner(System.in);
-    Board board = new Board();
-    int moveCounter = 0;
-    String userInput;
-    // -----------------------------------------------
+    private void extractLevel(int levelNumber){
+        // Populates this.Board with the appropriate obstacles
+        // that mimics the start state of the level levelNumber
 
-    private static void getUserInput() {
-        Board newBoard = new Board();
-        String input = keyboard.nextLine();
+        try{
+            File levelFile = new File("be.kdg.integration1.team8.RushHour/model/levels.txt");
+            Scanner lineReader = new Scanner(levelFile); 
 
-        switch (input.toLowerCase()) {
+            String curLine = ""; 
 
-            case "?": printHowTo();
-                getUserInput();
-                break;
+            // GET TO THE STARTING LINE OF LEVEL levelNumber
+            while(lineReader.hasNextLine()){
+                curLine = lineReader.nextLine(); 
 
-            case "r": printRules();
-                getUserInput();
-                break;
-            case "lb": printLB();
-                getUserInput();
-                break;
-            case "play":
-                /*
-                NOTE: Under here is the pre-filled part of the board.
-                This will be replaced by readLevel() which will be stored in a .txt file fill the baord
-                through that function.
-                 */
-                ArrayList<Obstacle> fill = new ArrayList<>();
+                if(curLine.startsWith("--"+levelNumber)){
+                    System.out.println("FOUND MY LEVEL: " + levelNumber);
+                    curLine = lineReader.nextLine();
+                    break;
+                }
+            }
+            // -------------------------------------------------
 
+            // READ EACH LINE OF LEVEL levelNumber
 
-                //RHINO OBSTACLE
-                Obstacle rhino = new Obstacle();
-                char idChar = 'R';
-                ArrayList<Integer> coords1 = new ArrayList<>();
-                ArrayList<Integer> coords2 = new ArrayList<>();
-                coords1.add(3);
-                coords1.add(3);
+            String[] splitLine; 
+            StringBuilder entireLevelString = new StringBuilder(); 
 
-                coords2.add(3);
-                coords2.add(2);
+            while(!curLine.startsWith("END")){
+                //System.out.println(curLine);
 
-                rhino.insert(rhino, 3,3, idChar); //Rhino TAIL (3, 3)
-                rhino.insert(rhino, 3,2, idChar); //Rhino HEAD (3, 2)
+                //splitLine = curLine.split('|');
+                // |R | 0,1 | 0,2 | 0,3
+                // |0 |  1  |  2  |  3
 
-                fill.add(rhino);
+                entireLevelString.append(curLine);
+                curLine = lineReader.nextLine(); 
+            }
 
-                //GIRAFFE OBSTACLE
-                Obstacle giraffe = new Obstacle();
-                idChar = 'G';
-                coords1 = new ArrayList<>(); //clears the arraylist
-                coords2 = new ArrayList<>(); //clears the arrayList
-                coords1.add(4);
-                coords1.add(5);
-                coords2.add(5);
-                coords2.add(5);
+            //System.out.println(entireLevelString);
 
-                giraffe.insert(giraffe, 4,5, idChar);
-                giraffe.insert(giraffe, 5,5, idChar);
-
-                fill.add(giraffe);
-
-                newBoard.populate(fill);
-                newBoard.update();
-                newBoard.printBoard();
-                keyboard.nextLine();
-                System.out.println("Select a move: ");
-                giraffe.move(giraffe, "left");
-                newBoard.update();
-                newBoard.printBoard();
-
-                getUserInput();
-                break;
-
-
-
-            case "exit":printIntro();
+            stringToLevel(entireLevelString.toString());
+            // ----------------------------------------
+            lineReader.close();
+        } catch (FileNotFoundException e){
+            System.out.println("FILE NOT FOUND DUMMIE!");
+            e.printStackTrace();
         }
     }
 
-    public static void play() {
-        // Initiates a game session and actually plays it.
+    private void stringToLevel(String stringLevel){
+        // Converts String stringLevel (which is created in extract level)
+        // into the actual board. This code might be reused when saving/loading from database
+        // so had to put it into a function. 
+
+
+        // 1. Convert the entire String into an array
+        // EACH INDEX IS A NEW OBSTACLE TO CONVERT 
+        String[] obstacleStrings = stringLevel.split("#");
+        ArrayList<Obstacle> obstacles = new ArrayList<Obstacle>(); 
+
+
+        // 2. Iterate through EACH INDEX, AND MAKE AN OBSTACLE
+        for(String x : obstacleStrings){
+            Obstacle newObstacle = new Obstacle(); 
+
+
+            char animalChar = x.charAt(0); // First Character is the Animal Char
+            String[] stringNodes = x.substring(3).replaceAll("\\s+","").split("\\|");
+
+            
+            Node[] nodes; 
+            for( String n : stringNodes){
+                System.out.println("\'"+ n + "\'");
+
+                //Node newNode = new Node((int)n.charAt(0), (int)n.charAt(2),null,animalChar);
+                newObstacle.insert(newObstacle,Character.getNumericValue(n.charAt(0)),
+                    Character.getNumericValue(n.charAt(2)), animalChar); 
+                
+            }
+            newObstacle.printList(); 
+            obstacles.add(newObstacle);
+
+            System.out.println();
+        }
+
+        this.board.populate(obstacles); 
+        this.board.update(); 
+        this.board.printBoard();
+    }
+
+    private String levelToString(){
+        // Converts the current board state into a giant String object
+        // to be saved in the database
+
+        return "";
+    }
+
+
+// ########################################################################################################################
+// ########################################################################################################################
+// ########################################################################################################################
+
+
+
+    public void play() {
+
+        // Initialize Variables to be Used:
+        Board newBoard = new Board();   // Board Object   :: all things board related
+        Player player = new Player();   // Player Object  :: stores player data
+        String userInput;               // User Input     :: stores LAST user input AT ALL TIMES
+        Boolean gameState = true;       // Continue Check :: Dictates whether the game continues to loop
+
+
+
+    // (1) Introductary Sequence
         printIntro();
 
-        // printSB("Scoreboard",0); 
-        // uploadSB("Ben");
-        // printSB("Scoreboard",0);
+        getUserInput();  
+ 
+        while(!this.userInput.equals("play")){
+            switch (this.userInput.toLowerCase()){
+                case "?":
+                    printHowTo(); 
+                    break;
+                case "r":
+                    printRules();
+                    break;
+                case "lb":
+                    printLB();
+                    break;
+            }
 
-        
-
-        Board newBoard = new Board();
-        Player player = new Player(); 
-
-        System.out.println("Enter Your Name: ");
-        player.setName(keyboard.nextLine());
-
-        player.getName(); 
-
-        while(true){
-            getUserInput();
+            getUserInput(); 
+            break; 
         }
 
-
-        // This is our main game loop, and we will:
-        //      1. ASK FOR INPUT START OF LOOP
-        //      2. CHECK THE INPUT
-        //      3. DO WHAT THE INPUT SAYS
-        //      4. UPDATE & PRINT BOARD
-        //      5. ----------------------->
+    // (2) Actual Game Begins
+        System.out.println("-------- THE GAME HAS BEGUN --------");
 
 
+        // FUNCTION TO GENERAT THE LEVEL BASED ON LEVEL_ID 
+        extractLevel(1);
+        // ------------------------------------------------
+
+
+        boolean check = this.board.checkWin(); 
+        System.out.println(check);
+
+        System.out.println("-------------------------------");
+
+        // 0. Ask User for Level #  
+        // 1. Generate Board from File
+
+
+        // 2. Begin Game Loop
+        //      * Anytime User enters 'r', '?', 'LB'
+        //        we must print appropriate function.
+    
     }
-
 }
-

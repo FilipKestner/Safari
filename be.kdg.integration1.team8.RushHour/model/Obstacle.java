@@ -1,4 +1,4 @@
-package be.kdg.integration1.team8.RushHour.model;
+package model;
 
 import java.util.ArrayList;
 
@@ -87,7 +87,7 @@ public class Obstacle {
         System.out.printf(" Linked List: %c\n",cur_node.animalChar);
 
         while(cur_node != null){
-            System.out.printf("\t%c | (%d,%d)\n",cur_node.animalChar, cur_node.getX()+1, cur_node.getY()+1);
+            System.out.printf("\t%c | (%d,%d)\n",cur_node.animalChar, cur_node.getX(), cur_node.getY());
             cur_node = cur_node.next; 
         }
     }
@@ -111,7 +111,11 @@ public class Obstacle {
         // left, // -> { -1, 0}
         // right // -> { +1, 0}
 
-        int[] moveCoords = new int[2];         
+        int[] moveCoords = new int[2];     //MAKE ENUM FILIP  
+        
+    //     SWITCH(move)\
+    // MOVETYOPE.UP
+
         if(dir.equals("up")){
             //int[] moveCoords = {0,-1};
             moveCoords[0] = 0;

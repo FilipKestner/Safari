@@ -1,4 +1,4 @@
-package be.kdg.integration1.team8.RushHour.model;
+package model;
 
 import java.util.ArrayList;
 
@@ -21,7 +21,6 @@ public class Node {
             setCurrentCoords(x, y);
             setNext(nextLink);
             setAnimalChar(animalChar);
-
         }
 
         public Node(char animalChar){

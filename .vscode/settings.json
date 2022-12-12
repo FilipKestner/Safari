@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": ["be.kdg.integration1.team8.RushHour"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar"
+    ]
+}

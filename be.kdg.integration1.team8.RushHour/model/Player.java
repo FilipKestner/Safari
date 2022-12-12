@@ -1,4 +1,4 @@
-package be.kdg.integration1.team8.RushHour.model;
+package model;
 
 public class Player {
     String playerName; 
